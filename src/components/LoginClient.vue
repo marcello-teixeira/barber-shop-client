@@ -29,14 +29,26 @@
         </template>
         </q-input>
 
-        <div class="text-right">
-          <q-btn
-            push
-            label="Sign In"
-            color="green"
-            type="submit"
-          />
+        <div class="row">
+          <div class="col-sm-6 text-left">
+            <q-btn
+              class=""
+              label="Register Now"
+              outline
+            />
+          </div>
+
+          <div class="col-sm-6 text-right">
+            <q-btn
+             push
+             label="Sign In"
+             color="green"
+             type="submit"
+            />
+          </div>
         </div>
+
+
       </q-form>
     </div>
   </div>
@@ -48,15 +60,11 @@ import {LoginClient, GetClients} from '../httpclient.js'
 
 export default defineComponent({
   name: 'LoginClient',
-  data() {
-    return {
-      ClientToken: ''
-    }
-  },
   setup () {
     return {
       MailClient: ref('marcello'),
       PasswordClient: ref('123'),
+      ClientToken: ref('')
     }
   },
   methods: {
