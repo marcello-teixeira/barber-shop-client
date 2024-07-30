@@ -47,8 +47,6 @@
             />
           </div>
         </div>
-
-
       </q-form>
     </div>
   </div>
@@ -56,10 +54,10 @@
 
 <script>
 import { defineComponent, ref } from 'vue';
-import {LoginClient, GetClients} from '../httpclient.js'
+import {ClientLogin} from '../httpclient.js'
 
 export default defineComponent({
-  name: 'LoginClient',
+  name: 'ClientLogin',
   setup () {
     return {
       MailClient: ref('marcello'),
@@ -68,8 +66,8 @@ export default defineComponent({
     }
   },
   methods: {
-    async SubmitFormLogin(e) {
-      this.ClientToken = await LoginClient(this.MailClient, this.PasswordClient);
+    async SubmitFormLogin() {
+      this.ClientToken = await ClientLogin(this.MailClient, this.PasswordClient);
     }
   },
   mounted() {

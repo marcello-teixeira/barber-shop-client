@@ -7,15 +7,19 @@
 </template>
 
 <script>
-//import Login from 'components/LoginClient.vue'
-import Register from 'components/RegisterClient.vue'
+import Login from 'src/components/ClientLoginComponent.vue';
+import Register from 'src/components/ClientRegisterComponent.vue';
 
 
 export default {
   name: 'IndexPage',
   components: {
-    Register
+    Register,
 
+  },
+  props: {
+    OnRegister: Boolean
   }
+
 };
 </script>

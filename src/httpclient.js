@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function LoginClient(mail, password) {
+export async function ClientLogin(mail, password) {
   try {
     const response = await axios.post(
       `https://localhost:7290/Authentication/Login`,
@@ -28,5 +28,27 @@ export function GetClients(token) {
       .then((promisse) => console.log(promisse.data));
   } catch (error) {
     console.error(error);
+  }
+}
+
+export function ClientRegister(FormData, route) {
+  try {
+    var response;
+
+    axios.post(
+      `https://localhost:7290/post/${route}`,
+      FormData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'accept': '*/*'
+        }
+      }
+    ).then(response = true).catch(response = false);
+
+    return response;
+  } catch (error) {
+    console.error('Register client function error',error);
+    return false;
   }
 }
