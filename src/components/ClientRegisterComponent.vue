@@ -2,11 +2,11 @@
   <div class="row justify-center">
     <div class="col-md-6">
       <q-form
-      class="q-gutter-md"
+      class="q-gutter-sm"
       @submit="SubmitRegisterForm"
       >
         <div class="flex">
-          <h5 class="roboto">
+          <h5>
             Fill in your informations
           </h5>
           <q-toggle
@@ -21,18 +21,22 @@
 
         <q-input
           v-for="(input, index) in FilterInputs"
+          dense
           :key="index"
           :type="input.type"
           :label="input.label"
           :rules="[input.rule]"
           :mask="input.mask"
+          fill-mask
           v-model="input.model"
           :hint="input.hint"
+          unmasked-value
           filled
           color="green-10"
           class="q-my-md"
         >
           <template v-slot:append>
+
             <q-icon
                v-if="input.label == 'Password'"
               :name="input.icon"
@@ -40,14 +44,44 @@
               @click="ToggleViewPassword"
             />
 
-            <q-icon
-              v-if="input.label == 'Location'"
-              name="location_on"
-              class="cursor-pointer"
+            <template v-if="input.label == 'Location'">
+              <q-icon
+                name="location_on"
+                class="cursor-pointer"
               />
+
+              <q-popup-proxy
+                cover
+                transition-show="scale"
+                transition-hide="scale"
+                class="bg-grey-4"
+              >
+                <Location @send-location="onSendLocation" />
+              </q-popup-proxy>
+            </template>
 
           </template>
         </q-input>
+        <q-file
+          outlined
+          color="green-10"
+          v-model="Inputs.File.model"
+          label="Profile picture"
+
+        >
+          <template v-slot:prepend>
+            <q-icon
+              name="person"
+            />
+          </template>
+          <template v-slot:append>
+            <q-icon
+              name="close"
+              class="cursor-pointer"
+              @click="Inputs.File.model = null"
+            />
+          </template>
+        </q-file>
         <div class="row items-center">
           <div class="col-sm-6 text-left">
             <q-btn
@@ -60,9 +94,8 @@
               label="Register"
               push
               padding="md"
-              color="grey-7"
-              text-color="white"
               type="submit"
+              class="btn-register"
             />
           </div>
         </div>
@@ -75,6 +108,7 @@
 import { ref } from 'vue';
 import { Notify } from 'quasar';
 import { ClientRegister} from '../httpclient';
+import Location from '../components/LocationComponent.vue'
 
 export default {
   name: "ClientRegister",
@@ -104,7 +138,7 @@ export default {
         CPF: {
           label: "CPF",
           type: "text",
-          rule: (val) => val.length > 0 || "Enter your CPF",
+          rule: (val) => val.length >= 11 || "Enter your CPF",
           mask: "###.###.###-##",
           model: "",
           visible: !this.OnCompany
@@ -112,7 +146,7 @@ export default {
         CNPJ: {
           label: "CNPJ",
           type: "text",
-          rule: (val) => val.length > 0 || "Enter your CNPJ",
+          rule: (val) => val.length >= 14 || "Enter your CNPJ",
           mask: "##.###.###/####-##",
           model: "",
           visible: this.OnCompany
@@ -138,7 +172,7 @@ export default {
         Phone: {
           label: "Phone",
           type: "tel",
-          rule: (val) => val.length > 0 || "Enter your phone",
+          rule: (val) => val.length >= 11 || "Enter your phone",
           mask: "(##)#####-####",
           model: "",
           visible: true
@@ -148,10 +182,17 @@ export default {
           type: "text",
           rule: (val) => val.length > 0 || "Enter your location",
           model: "",
+          hint: 'Mask: road number, postcode city, country',
           visible: this.OnCompany
         },
+        File: {
+          model: ''
+        }
       },
     };
+  },
+  components: {
+    Location
   },
   computed: {
     FilterInputs() {
@@ -159,6 +200,16 @@ export default {
     }
    },
   methods: {
+    onSendLocation(data) {
+      for (const key in data) {
+        if(data[key] === undefined) {
+          data[key] = '';
+        }
+      }
+
+      this.Inputs.Location.model = `${data.road}, ${data.postcode} ${data.city}, ${data.country}`;
+    },
+
     ToggleViewPassword() {
       this.ViewPassword = !this.ViewPassword
       this.Inputs.Password.type = this.ViewPassword ? 'password' : 'text';
@@ -175,7 +226,7 @@ export default {
         formData.append('CPF', this.Inputs.CPF.model);
         formData.append('Password', this.Inputs.Password.model);
         formData.append('Phone', this.Inputs.Password.model);
-        formData.append('Photo', '');
+        formData.append('Photo', this.Input.File.model);
 
         route = 'customer';
       } else {
@@ -186,7 +237,7 @@ export default {
         formData.append('Phone', this.Inputs.Phone.model);
         formData.append('Location', this.Inputs.Location.model);
         formData.append('Login', 'Teste');
-        formData.append('Photo', '');
+        formData.append('Photo', this.Input.File.model);
 
         route = 'company';
       }
@@ -227,4 +278,17 @@ export default {
 };
 </script>
 
+<style scoped>
 
+.btn-register {
+  background-color: rgb(138, 132, 132);
+  color: white;
+
+  transition: .4s;
+}
+
+.btn-register:hover {
+  background-color: rgb(54, 129, 54);
+}
+
+</style>

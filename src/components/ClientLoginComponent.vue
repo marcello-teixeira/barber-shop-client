@@ -33,7 +33,7 @@
           <div class="col-sm-6 text-left">
             <q-btn
               class=""
-              label="Register Now"
+              label="Sign up"
               outline
             />
           </div>
@@ -60,8 +60,8 @@ export default defineComponent({
   name: 'ClientLogin',
   setup () {
     return {
-      MailClient: ref('marcello'),
-      PasswordClient: ref('123'),
+      MailClient: ref(''),
+      PasswordClient: ref(''),
       ClientToken: ref('')
     }
   },
@@ -69,8 +69,6 @@ export default defineComponent({
     async SubmitFormLogin() {
       this.ClientToken = await ClientLogin(this.MailClient, this.PasswordClient);
     }
-  },
-  mounted() {
   }
 })
 </script>
