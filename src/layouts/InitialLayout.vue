@@ -1,8 +1,8 @@
 <template>
-  <q-layout view="HHH ppp fff">
+  <q-layout view="hHh Lpr fFf">
   <q-header class="row layout-color" elevated>
         <q-list class="row" >
-          <q-item v-ripple clickable :active-class="'color-item'">
+          <q-item v-ripple clickable :to="'home'" :active-class="'color-item'">
             <q-item-section class="column items-center">
               <q-icon
                 name="home"

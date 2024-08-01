@@ -44,13 +44,13 @@
 
 <script>
 import Login from 'src/components/ClientLogin.vue';
-import Register from 'src/components/ClientRegistervue';
+import Register from 'src/components/ClientRegister.vue';
 import LoadindForm from 'src/components/LoadingForm.vue';
 import {ref} from 'vue';
 
 
 export default {
-  name: 'IndexPage',
+  name: 'LoginPage',
   setup() {
     return {
       showRegister: ref(false),
