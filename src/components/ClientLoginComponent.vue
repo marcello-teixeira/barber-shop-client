@@ -2,7 +2,7 @@
   <div class="row justify-center">
     <div class="col-md-6 q-py-lg">
       <q-form
-      class="q-gutter-md bg-light-green-4 q-pa-md rounded-borders shadow-3"
+      class="q-gutter-md bg-light-green-3 q-pa-md rounded-borders shadow-3"
       @submit="SubmitFormLogin"
       autocomplete="off"
       >
@@ -35,6 +35,7 @@
               class=""
               label="Sign up"
               outline
+              @click="slideForm"
             />
           </div>
 
@@ -58,11 +59,17 @@ import {ClientLogin} from '../httpclient.js'
 
 export default defineComponent({
   name: 'ClientLogin',
-  setup () {
+  setup (_, {emit}) {
+
+    const slideForm = () => {
+      emit('slide-form');
+    }
+
     return {
       MailClient: ref(''),
       PasswordClient: ref(''),
-      ClientToken: ref('')
+      ClientToken: ref(''),
+      slideForm
     }
   },
   methods: {

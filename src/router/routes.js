@@ -1,9 +1,9 @@
 const routes = [
   {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    path: '/login',
+    component: () => import('src/layouts/LogonLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') }
+      { path: '', component: () => import('src/pages/InitialLoginPage.vue') }
     ]
   },
 

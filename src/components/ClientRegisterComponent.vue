@@ -1,13 +1,13 @@
 <template>
   <div class="row justify-center">
-    <div class="col-md-6">
+    <div class="col-md-8">
       <q-form
-      class="q-gutter-sm"
+      class="q-gutter-sm bg-grey-5 q-pa-md q-ma-md rounded-borders"
       @submit="SubmitRegisterForm"
       >
-        <div class="flex">
-          <h5>
-            Fill in your informations
+        <div >
+          <h5 style="margin: 0px 0px 15px 0px;">
+            Enter your information
           </h5>
           <q-toggle
             label="Are you a company?"
@@ -65,9 +65,9 @@
         <q-file
           outlined
           color="green-10"
-          v-model="Inputs.File.model"
+          v-model="Inputs.ProfilePicture.model"
           label="Profile picture"
-
+          dense
         >
           <template v-slot:prepend>
             <q-icon
@@ -78,15 +78,21 @@
             <q-icon
               name="close"
               class="cursor-pointer"
-              @click="Inputs.File.model = null"
+              @click="this.Inputs.ProfilePicture.model = null"
             />
           </template>
         </q-file>
-        <div class="row items-center">
+          <q-toggle
+            label="I agree terms and conditions"
+            v-model="termAgree"
+            color="light-green"
+          />
+        <div class="row items-center q-my-md">
           <div class="col-sm-6 text-left">
             <q-btn
               outline
               label="Already has account?"
+              @click="slideForm"
             />
           </div>
           <div class="col-sm-6 text-right">
@@ -99,6 +105,9 @@
             />
           </div>
         </div>
+        <p class="q-my-xl" style=" margin: 0px;">
+          <a href="#" style="color: blue;">Terms and conditions</a>
+        </p>
       </q-form>
     </div>
   </div>
@@ -112,10 +121,17 @@ import Location from '../components/LocationComponent.vue'
 
 export default {
   name: "ClientRegister",
-  setup() {
+  setup(_,{emit}) {
+
+    const slideForm = () => {
+      emit('slide-form');
+    }
+
     return {
       ViewPassword: ref(true),
-      OnCompany: ref(false)
+      OnCompany: ref(false),
+      termAgree: ref(false),
+      slideForm
     }
   },
   data() {
@@ -185,8 +201,8 @@ export default {
           hint: 'Mask: road number, postcode city, country',
           visible: this.OnCompany
         },
-        File: {
-          model: ''
+        ProfilePicture: {
+          model: null
         }
       },
     };
@@ -220,59 +236,35 @@ export default {
       const formData = new FormData();
       let route;
 
+      formData.append('Name', this.Inputs.Name.model);
+      formData.append('Email', this.Inputs.Email.model);
+      formData.append('Password', this.Inputs.Password.model);
+      formData.append('Phone', this.Inputs.Phone.model);
+      formData.append('Photo', this.Inputs.ProfilePicture.model);
+
       if (!this.OnCompany) {
-        formData.append('Name', this.Inputs.Name.model);
-        formData.append('Email', this.Inputs.Email.model);
         formData.append('CPF', this.Inputs.CPF.model);
-        formData.append('Password', this.Inputs.Password.model);
-        formData.append('Phone', this.Inputs.Password.model);
-        formData.append('Photo', this.Input.File.model);
 
         route = 'customer';
+
       } else {
-        formData.append('Name', this.Inputs.Name.model);
-        formData.append('Email', this.Inputs.Email.model);
         formData.append('CNPJ', this.Inputs.CNPJ.model);
-        formData.append('Password', this.Inputs.Password.model);
-        formData.append('Phone', this.Inputs.Phone.model);
         formData.append('Location', this.Inputs.Location.model);
-        formData.append('Login', 'Teste');
-        formData.append('Photo', this.Input.File.model);
+        formData.append('Login', 'admin');
 
         route = 'company';
       }
 
-      const resp = ClientRegister(formData, route);
+      ClientRegister(formData, route);
 
-      this.AlertForm(resp);
+
     },
     IsCompany() {
       this.Inputs.CNPJ.visible = this.OnCompany;
-      this.Inputs.CPF.visible = !this.OnCompany;
       this.Inputs.Location.visible = this.OnCompany;
-    },
-    AlertForm(response) {
-      if(response) {
-        Notify.create({
-          message: 'Informations sent succesfull',
-          color: 'positive',
-          position: 'top',
-          icon: 'star',
-          timeout: '3500'
-        });
-
-        return null;
-      }
-
-      Notify.create({
-        message: "Servidor hasn't received the informations",
-        color: 'negative',
-        position: 'top',
-        icon: 'error',
-        timeout: '3500'
-
-      });
+      this.Inputs.CPF.visible = !this.OnCompany;
     }
+
   },
 
 };

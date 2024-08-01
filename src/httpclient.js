@@ -9,6 +9,7 @@ export async function ClientLogin(mail, password) {
         password: password,
       }
     );
+
     return response.data.secretToken;
   } catch (error) {
     console.error("Error in LoginClient", error);
@@ -18,8 +19,7 @@ export async function ClientLogin(mail, password) {
 
 export function GetClients(token) {
   try {
-    axios
-      .get(`https://localhost:7290/get/customer`, {
+    axios.get(`https://localhost:7290/get/customer`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -33,8 +33,6 @@ export function GetClients(token) {
 
 export function ClientRegister(FormData, route) {
   try {
-    var response;
-
     axios.post(
       `https://localhost:7290/post/${route}`,
       FormData,
@@ -44,11 +42,8 @@ export function ClientRegister(FormData, route) {
           'accept': '*/*'
         }
       }
-    ).then(response = true).catch(response = false);
-
-    return response;
+    )
   } catch (error) {
     console.error('Register client function error',error);
-    return false;
   }
 }
