@@ -117,7 +117,7 @@
 import { ref } from 'vue';
 import { Notify } from 'quasar';
 import { ClientRegister} from '../httpclient';
-import Location from '../components/LocationComponent.vue'
+import Location from './Location.vue'
 
 export default {
   name: "ClientRegister",

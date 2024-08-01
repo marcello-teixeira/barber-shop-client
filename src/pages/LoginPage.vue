@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import Login from 'src/components/ClientLoginComponent.vue';
-import Register from 'src/components/ClientRegisterComponent.vue';
-import LoadindForm from 'src/components/LoadingFormComponent.vue';
+import Login from 'src/components/ClientLogin.vue';
+import Register from 'src/components/ClientRegistervue';
+import LoadindForm from 'src/components/LoadingForm.vue';
 import {ref} from 'vue';
 
 

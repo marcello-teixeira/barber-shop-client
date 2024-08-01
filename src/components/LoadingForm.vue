@@ -6,7 +6,7 @@
 
 <script>
 import { Loading } from 'quasar';
-import Spinner from 'src/components/SpinnerComponent.vue'
+import Spinner from 'src/components/Spinner.vue'
 import { onUpdated } from 'vue';
 
 export default {

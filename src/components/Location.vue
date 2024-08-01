@@ -29,7 +29,7 @@
 <script>
 import axios from 'axios';
 import {onMounted, ref} from 'vue';
-import MapLocalition from '../components/MapComponent.vue'
+import MapLocalition from './Map.vue'
 
 export default {
   name: 'LocationComponent',

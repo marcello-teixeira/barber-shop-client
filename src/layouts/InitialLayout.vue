@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import IconBarb from '../components/IconBarbComponent.vue'
+import IconBarb from '../components/IconBarb.vue'
 
 export default {
   name: 'MainLayout',
