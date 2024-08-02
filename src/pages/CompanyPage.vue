@@ -37,7 +37,8 @@
 </template>
 
 <script>
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
+import api from '../httpclient';
 
 const columns = [
   {
@@ -63,6 +64,11 @@ const rows = [
 export default {
   name: 'CompanyPage',
   setup() {
+
+    onMounted(() => {
+      api.get('get/customer').then(resp => console.log(resp));
+    });
+
     return {
       columns,
       rows

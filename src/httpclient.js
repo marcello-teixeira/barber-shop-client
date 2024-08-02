@@ -1,33 +1,35 @@
 import axios from "axios";
 
+const api = axios.create({
+  baseURL: 'https://localhost:7290/'
+});
+
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if(token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config;
+  }
+);
+
 export async function ClientLogin(mail, password) {
   try {
     const response = await axios.post(
-      `https://localhost:7290/Authentication/Login`,
+      'https://localhost:7290/Authentication/Login',
       {
         login: mail,
         password: password,
       }
-    );
+    ).then(resp => console.log(resp.data));
 
-    return response.data.secretToken;
+    console.log(response)
+
+    //return localStorage.setItem('token', );
   } catch (error) {
     console.error("Error in LoginClient", error);
     return null;
-  }
-}
-
-export function GetClients(token) {
-  try {
-    axios.get(`https://localhost:7290/get/customer`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((promisse) => console.log(promisse.data));
-  } catch (error) {
-    console.error(error);
   }
 }
 
@@ -47,3 +49,5 @@ export function ClientRegister(FormData, route) {
     console.error('Register client function error',error);
   }
 }
+
+export default api;
