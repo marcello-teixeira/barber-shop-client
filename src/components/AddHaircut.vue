@@ -1,9 +1,6 @@
 <template>
   <q-form class="row">
-    <div class="col-md-1 q-gutter-md">
-      <h5 style="margin-bottom: 0px;">
-        Haircut
-      </h5>
+    <div class="col q-gutter-md">
       <q-input
         color="green-5"
         label="Name"
@@ -18,7 +15,6 @@
         input-class="text-right"
         mask="#.##"
         reverse-fill-mask
-        unmasked-value
         v-model="cost"
         :rules="[val => val > 0 || 'Enter a value']"
       />
@@ -27,6 +23,7 @@
           color="green-5"
           label="Confirm"
           type="submit"
+          @click="AddHaircut"
         />
       </div>
     </div>
@@ -34,14 +31,26 @@
 </template>
 
 <script>
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
+import api from '../httpclient';
 
 export default {
   name: 'AddHaircut',
   setup () {
+    const cost = ref(null);
+    const name = ref('');
+
+    const AddHaircut = () => {
+      api.post('haircut', {
+        name: name.value,
+        cost: cost.value
+      });
+    }
+
     return {
-      cost: ref(null),
-      name: ref('')
+      AddHaircut,
+      cost,
+      name
     }
   }
 }

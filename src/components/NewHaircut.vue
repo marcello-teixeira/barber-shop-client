@@ -36,7 +36,7 @@
         v-model="date"
         filled
         label="Date"
-        :rules="[val => new Date(val) >= new Date()]"
+        :rules="[]"
       >
         <template v-slot:prepend>
           <q-icon
@@ -65,7 +65,6 @@
                 mask="DD/MM/YYYY HH:mm"
                 unmasked-value
               >
-
               </q-time>
             </q-popup-proxy>
           </q-icon>
@@ -75,11 +74,8 @@
       <q-input
         label="Haircut"
       >
-
       </q-input>
-
     </q-form>
-
   </div>
 </template>
 
@@ -99,7 +95,6 @@ export default {
     const getCompanies = async () => {
       const response = await api.get('company/get');
       companies.value = response.data;
-      console.log(response.data)
 
       return response.data;
     }

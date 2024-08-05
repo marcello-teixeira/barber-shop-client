@@ -122,15 +122,18 @@ import Location from './Location.vue'
 export default {
   name: "ClientRegister",
   setup(_,{emit}) {
+    const ViewPassword = ref(true);
+    const OnCompany = ref(false);
+    const termAgree = ref(false);
 
     const slideForm = () => {
       emit('slide-form');
     }
 
     return {
-      ViewPassword: ref(true),
-      OnCompany: ref(false),
-      termAgree: ref(false),
+      termAgree,
+      ViewPassword,
+      OnCompany,
       slideForm
     }
   },

@@ -1,7 +1,7 @@
 <template>
   <q-page-container>
     <q-page padding class="row">
-      <div class="col-md-9">
+      <div class="col-md-9 q-pa-md">
         <q-table
         title="All Orders"
         :rows="rows"
@@ -10,7 +10,18 @@
         >
         </q-table>
       </div>
-      <div class="col-md-3">
+
+      <div class="col-md-3 q-gutter-md justify-start column">
+
+        <q-btn
+          label="New haircut"
+          @click="isVisibleHaircut = !isVisibleHaircut"
+        >
+
+        </q-btn>
+
+        <AddHaircut v-show="isVisibleHaircut"/>
+
         <q-list>
           <q-item>
             Marcello Teixeira
@@ -38,6 +49,7 @@
 
 <script>
 import {onMounted, ref} from 'vue';
+import AddHaircut from '../components/AddHaircut.vue'
 import api from '../httpclient';
 
 const columns = [
@@ -64,14 +76,16 @@ const rows = [
 export default {
   name: 'CompanyPage',
   setup() {
+    const isVisibleHaircut = ref(false);
 
     return {
+      isVisibleHaircut,
       columns,
       rows
     }
   },
   components: {
-
+    AddHaircut
   },
   created() {
     api.get('customer/get').then(resp => console.log(resp));
