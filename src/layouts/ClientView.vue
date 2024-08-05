@@ -22,9 +22,6 @@
     <q-drawer v-model="isLeftDrawerVisible" show-if-above class="bg-grey">
         <q-list>
           <q-item>
-            New haircut
-          </q-item>
-          <q-item>
             Agenda
           </q-item>
           <q-item>
