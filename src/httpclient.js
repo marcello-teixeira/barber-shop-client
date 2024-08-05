@@ -16,27 +16,25 @@ api.interceptors.request.use(
 
 export async function ClientLogin(mail, password) {
   try {
-    const response = await axios.post(
-      'https://localhost:7290/Authentication/Login',
+    const response = await api.post(
+      'authentication/login',
       {
         login: mail,
         password: password,
       }
-    ).then(resp => console.log(resp.data));
+    );
 
-    console.log(response)
-
-    //return localStorage.setItem('token', );
+    return localStorage.setItem('token', response.data.secretToken);
   } catch (error) {
     console.error("Error in LoginClient", error);
-    return null;
+    return;
   }
 }
 
 export function ClientRegister(FormData, route) {
   try {
-    axios.post(
-      `https://localhost:7290/post/${route}`,
+    api.post(
+      `${route}/post`,
       FormData,
       {
         headers: {

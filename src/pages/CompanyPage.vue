@@ -65,10 +65,6 @@ export default {
   name: 'CompanyPage',
   setup() {
 
-    onMounted(() => {
-      api.get('get/customer').then(resp => console.log(resp));
-    });
-
     return {
       columns,
       rows
@@ -76,6 +72,9 @@ export default {
   },
   components: {
 
+  },
+  created() {
+    api.get('customer/get').then(resp => console.log(resp));
   }
 }
 </script>

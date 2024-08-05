@@ -30,10 +30,10 @@
             </q-item-section>
           </q-item>
         </q-list>
-    <div class="col-9 column items-center">
-        <q-item :to="'home'">
+    <div class="col-9 column items-center" >
+        <q-btn class="button-hover" flat :to="'home'">
           <IconBarb />
-      </q-item>
+      </q-btn>
     </div>
   </q-header>
 
@@ -68,5 +68,7 @@ export default {
 .color-item {
   color: #21BA45;
 }
+
+
 
 </style>
