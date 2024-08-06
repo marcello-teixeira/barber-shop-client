@@ -9,3 +9,11 @@ export default defineComponent({
   name: 'App'
 });
 </script>
+
+<style>
+
+body {
+  background-color: #fff;
+}
+
+</style>

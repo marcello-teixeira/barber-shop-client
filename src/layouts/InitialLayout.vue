@@ -47,12 +47,6 @@ import IconBarb from '../components/IconBarb.vue'
 
 export default {
   name: 'MainLayout',
-  data() {
-    return {
-
-
-    }
-  },
   components: {
     IconBarb
   }

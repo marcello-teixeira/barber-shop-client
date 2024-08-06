@@ -60,21 +60,23 @@ import {ClientLogin} from '../httpclient.js'
 export default defineComponent({
   name: 'ClientLogin',
   setup (_, {emit}) {
+    const MailClient = ref('');
+    const PasswordClient = ref('');
 
     const slideForm = () => {
       emit('slide-form');
     }
 
     return {
-      MailClient: ref(''),
-      PasswordClient: ref(''),
-      ClientToken: ref(''),
+      PasswordClient,
+      MailClient,
       slideForm
     }
   },
   methods: {
-    async SubmitFormLogin() {
-      this.ClientToken = await ClientLogin(this.MailClient, this.PasswordClient);
+    SubmitFormLogin() {
+      ClientLogin(this.MailClient, this.PasswordClient);
+
     }
   }
 })
