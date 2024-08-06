@@ -6,7 +6,6 @@
         class="order-table"
         title="ORDERS"
         flat
-        bordered
         hide-pagination
         :rows-per-page-options="[0]"
         :rows="rows"
@@ -18,13 +17,14 @@
         <template v-slot:body-cell-haircutDone="props">
           <q-td :props="props">
             <q-icon
-             class="done-icon"
+              class="done-icon"
               v-if="props.row.haircutDone === false"
               name="cancel"
               color="red"
             ></q-icon>
             <q-icon
               v-else
+              class="done-icon"
               name="check_circle"
               color="green"
             ></q-icon>
@@ -51,7 +51,7 @@
         <q-btn
           label="New haircut"
           color="grey-8"
-          @click="isVisibleHaircut = !isVisibleHaircut"
+          @click="visibleHaircut()"
         >
         </q-btn>
         <AddHaircut v-show="isVisibleHaircut"/>
@@ -59,13 +59,13 @@
         <h6 style="margin: 10px 0px 0px 20px;">
           OPEN ORDERS
         </h6>
-        <div class="open-orders q-gutter-md">
-          <q-card v-for="col in rows" :key="col.id" class="bg-gradient-green card-main">
-            <q-card-selection class="row ">
+        <div id="open-order" class="open-orders q-gutter-md bg-grey">
+          <q-card v-for="col in rowsFiltered" :key="col.id" class="bg-white card-main">
+            <q-card-selection class="row">
               <div class="col q-pa-sm" style="font-size: 30px;">
                 {{ `N° ${col.id}` }}
               </div>
-              <div class="col-3 column items-center border-left q-pt-sm date-bg" style="font-size: 35px;">
+              <div class="col-3 column items-center border-left q-pt-sm date-bg" style="font-size: 38px;">
                 {{ new Date(col.haircutDate).getDate() }}
               </div>
             </q-card-selection>
@@ -73,7 +73,8 @@
               <div class="col q-pa-sm">
                 {{ col.customerName }}
               </div>
-              <div class="col-3 column items-center border-left date-bg">
+              <div class="col-3 column items-center border-left date-bg"
+              style="font-size: 18px;">
                 {{ new Date(col.haircutDate).getMonth()+1 + "/" + new Date(col.haircutDate).getFullYear()}}
               </div>
             </q-card-selection>
@@ -85,13 +86,15 @@
                   color="green"
                   size="sm"
                   class="col"
+                  @click="patchOrder(col.id)"
                   >
                   </q-btn>
                   <q-btn
                    icon="delete"
                    color="red"
                    size="sm"
-                   class="col q-ml-sm">
+                   class="col q-ml-sm"
+                   @click="deleteOrder(col.id)">
                   </q-btn>
                 </div>
               </div>
@@ -107,7 +110,7 @@
 </template>
 
 <script>
-import {onMounted, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import AddHaircut from '../components/AddHaircut.vue'
 import api from '../httpclient';
 
@@ -123,7 +126,6 @@ const columns = [
 
 const rows = ref([]);
 
-
 export default {
   name: 'CompanyPage',
   setup() {
@@ -131,29 +133,67 @@ export default {
 
     const alterDateTime = (dateTime) => {
       let date = new Date(dateTime);
+
       let fullDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+
       return fullDate;
     }
 
     const getDayWeek = (day) => {
-      const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Sex', 'Sat']
+      let week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Sex', 'Sat']
 
       return week[day];
     }
+
+    const visibleHaircut = () => {
+      isVisibleHaircut.value = !isVisibleHaircut.value;
+
+      if (isVisibleHaircut.value) {
+        document.querySelector('#open-order').style.height = '480px';
+        return;
+      }
+
+      document.querySelector('#open-order').style.height = '690px';
+    }
+
+    const getOrders = () => {
+      api.get('orders').then(response => rows.value = response.data);
+    }
+
+    const deleteOrder = async (id) => {
+      await api.delete(`orders/${id}`);
+      getOrders()
+
+    }
+
+    const patchOrder = async (id) => {
+      await api.patch(`orders/${id}`);
+      getOrders();
+    }
+
+    const rowsFiltered = computed(() => {
+        let row = rows.value.filter(entity => !entity.haircutDone);
+        return row;
+    });
+
+    onMounted(() => {
+      getOrders();
+    });
 
     return {
       isVisibleHaircut,
       columns,
       rows,
+      rowsFiltered,
+      visibleHaircut,
       alterDateTime,
-      getDayWeek
+      getDayWeek,
+      deleteOrder,
+      patchOrder
     }
   },
   components: {
     AddHaircut
-  },
-  mounted() {
-    api.get('orders').then(response => this.rows = response.data);
   }
 }
 </script>
@@ -161,7 +201,8 @@ export default {
 <style>
 
 .date-bg {
-   background-color: rgb(91, 131, 91);
+   background-color: rgb(58, 75, 58);
+   color: #ffffffc2;
 }
 
 .card-main {
@@ -178,8 +219,6 @@ export default {
 }
 
 .bg-gradient-green {
-  background-image: linear-gradient(270deg, #85fab262, #08492279 );
-  /* background-size: 300% 300%; */
   font-size: 20px;
 }
 
@@ -192,6 +231,11 @@ export default {
   overflow-y: auto;
   border: 1px solid rgba(0, 0, 0, 0.199);
   border-radius: 5px;
+  padding-right: 15px;
+}
+
+.open-orders::-webkit-scrollbar {
+  width: 0px;
 }
 
 .noDateTable {
@@ -214,6 +258,15 @@ export default {
   position: absolute;
   left: 50%;
   font-weight: bold;
+}
+
+.q-table__middle {
+  border: 2px solid #8f8f8f;
+  border-radius: 5px;
+}
+
+.q-table__middle::-webkit-scrollbar {
+  width: 0px;
 }
 
 .q-table__top {
