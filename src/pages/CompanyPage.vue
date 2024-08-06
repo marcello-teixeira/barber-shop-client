@@ -1,6 +1,6 @@
 <template>
   <q-page-container>
-    <q-page padding class="row">
+    <q-page padding class="row q-page-main" >
       <div class="col-md-9 q-pa-md">
         <q-table
         class="order-table"
@@ -50,7 +50,7 @@
 
         <q-btn
           label="New haircut"
-          color="green"
+          color="grey-8"
           @click="isVisibleHaircut = !isVisibleHaircut"
         >
         </q-btn>
@@ -60,12 +60,12 @@
           OPEN ORDERS
         </h6>
         <div class="open-orders q-gutter-md">
-          <q-card v-for="col in rows" :key="col.id" class="bg-gradient-green">
+          <q-card v-for="col in rows" :key="col.id" class="bg-gradient-green card-main">
             <q-card-selection class="row ">
-              <div class="col q-pa-sm" >
+              <div class="col q-pa-sm" style="font-size: 30px;">
                 {{ `N° ${col.id}` }}
               </div>
-              <div class="col-3 column items-center border-left q-pt-sm">
+              <div class="col-3 column items-center border-left q-pt-sm date-bg" style="font-size: 35px;">
                 {{ new Date(col.haircutDate).getDate() }}
               </div>
             </q-card-selection>
@@ -73,25 +73,30 @@
               <div class="col q-pa-sm">
                 {{ col.customerName }}
               </div>
-              <div class="col-3 column items-center border-left">
+              <div class="col-3 column items-center border-left date-bg">
                 {{ new Date(col.haircutDate).getMonth()+1 + "/" + new Date(col.haircutDate).getFullYear()}}
               </div>
             </q-card-selection>
             <q-card-selection class="row">
-              <div class="col q-gutter-md q-pa-sm">
-                <q-btn
-                icon="check"
-                color="green"
-                size="sm">
-                </q-btn>
-                <q-btn
-                 icon="delete"
-                 color="red"
-                 size="sm">
-                </q-btn>
+              <div class="col q-pa-sm q-btn-card">
+                <div class="row">
+                  <q-btn
+                  icon="check"
+                  color="green"
+                  size="sm"
+                  class="col"
+                  >
+                  </q-btn>
+                  <q-btn
+                   icon="delete"
+                   color="red"
+                   size="sm"
+                   class="col q-ml-sm">
+                  </q-btn>
+                </div>
               </div>
-              <div class="col-3 column items-center border-left">
-                {{ "Mon" }}
+              <div class="col-3 column items-center border-left date-bg" style="font-size: 35px;">
+                {{ getDayWeek(new Date(col.haircutDate).getDay()) }}
               </div>
             </q-card-selection>
           </q-card>
@@ -130,11 +135,18 @@ export default {
       return fullDate;
     }
 
+    const getDayWeek = (day) => {
+      const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Sex', 'Sat']
+
+      return week[day];
+    }
+
     return {
       isVisibleHaircut,
       columns,
       rows,
-      alterDateTime
+      alterDateTime,
+      getDayWeek
     }
   },
   components: {
@@ -148,14 +160,31 @@ export default {
 
 <style>
 
+.date-bg {
+   background-color: rgb(91, 131, 91);
+}
+
+.card-main {
+  overflow: hidden;
+}
+
+.q-btn-card {
+  outline: 3px solid #c2c0c0;
+}
+
+.q-page-main {
+  max-height: 884px;
+  overflow: hidden;
+}
+
 .bg-gradient-green {
-  background-image: linear-gradient(270deg, #85FAB1, #5E7A69 );
+  background-image: linear-gradient(270deg, #85fab262, #08492279 );
   /* background-size: 300% 300%; */
   font-size: 20px;
 }
 
 .border-left {
-  border-left: 1px solid black;
+  border-left: 3px solid #c2c0c0;
 }
 
 .open-orders {

@@ -6,6 +6,7 @@
         label="Name"
         type="text"
         dense
+        outlined
         v-model="name"
         :rules="[(val) => val.length > 0 || 'Enter a value']"
       />
@@ -14,13 +15,15 @@
         label="Cost"
         input-class="text-right"
         mask="#.##"
+        dense
+        outlined
         reverse-fill-mask
         v-model="cost"
         :rules="[val => val > 0 || 'Enter a value']"
       />
       <div class="column">
         <q-btn
-          color="green-5"
+          color="green-10"
           label="Confirm"
           type="submit"
           @click="AddHaircut"
