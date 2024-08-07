@@ -8,7 +8,9 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if(token) {
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Accept = '*/*';
+      config.headers["Content-Type"] = 'application/json';
     }
     return config;
   }
@@ -24,8 +26,8 @@ export async function ClientLogin(mail, password) {
       }
     );
 
-
     return localStorage.setItem('token', response.data.tokenJwt);
+
   } catch (error) {
     console.error("Error in LoginClient", error);
     return;
@@ -39,8 +41,7 @@ export function ClientRegister(FormData, route) {
       FormData,
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'accept': '*/*'
+          'Content-Type': 'multipart/form-data'
         }
       }
     )

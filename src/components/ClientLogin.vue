@@ -7,7 +7,7 @@
       autocomplete="off"
       >
         <q-input
-          color="green-10"
+          color="secondary"
           type="text"
           label="Your email *"
           v-model="MailClient"
@@ -18,7 +18,7 @@
           </template>
         </q-input>
         <q-input
-          color="green-10"
+          color="secondary"
           type="password"
           label="Your password *"
           v-model="PasswordClient"

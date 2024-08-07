@@ -36,6 +36,7 @@
 <script>
 import {onMounted, ref} from 'vue';
 import api from '../httpclient';
+import { Notify } from 'quasar';
 
 export default {
   name: 'AddHaircut',
@@ -43,10 +44,18 @@ export default {
     const cost = ref(null);
     const name = ref('');
 
-    const AddHaircut = () => {
+    const AddHaircut = (e) => {
+      e.preventDefault();
       api.post('haircut', {
         name: name.value,
         cost: cost.value
+      }).then(resp => {
+        if(resp.status === 200) {
+          Notify.create({
+            message: 'Haircut Send Successful',
+            color: 'positive'
+          });
+        }
       });
     }
 

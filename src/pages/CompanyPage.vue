@@ -70,7 +70,7 @@
               </div>
             </q-card-selection>
             <q-card-selection class="row">
-              <div class="col q-pa-sm">
+              <div class="col q-pa-sm" style="font-size: 20px;">
                 {{ col.customerName }}
               </div>
               <div class="col-3 column items-center border-left date-bg"
