@@ -20,7 +20,7 @@ export default {
 
     setTimeout(()=> {
       Loading.hide();
-    }, 2000)
+    }, 600)
     }
 
     onUpdated(()=> {

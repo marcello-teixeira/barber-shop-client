@@ -34,6 +34,7 @@
         <q-icon
           name="archive"
           class="table-icon cursor-pointer"
+          color="brown-8"
         />
       </q-td>
     </template>
@@ -66,7 +67,6 @@ export default {
     watch(()=> props.Rows,
       (newVal) => {
         rows.value = newVal;
-        console.log(newVal)
       },
       {immediate: true}
     )

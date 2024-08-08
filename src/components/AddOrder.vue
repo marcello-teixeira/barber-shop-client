@@ -182,7 +182,7 @@ export default {
 .form-neworder {
   background-color: #ccc;
   border: 1px solid #ccc;
-  max-height: 850px;
+  height: auto;
   border-radius: 5px;
   padding: 10px;
   overflow-y: auto;

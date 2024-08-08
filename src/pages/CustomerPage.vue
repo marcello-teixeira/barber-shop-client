@@ -21,25 +21,6 @@ import OrdersView from '../components/OrdersView.vue'
 import api from 'src/httpclient';
 
 
-// Adiciona um interceptador na requisição
-api.interceptors.request.use((config) => {
-  config.metadata = { startTime: new Date() };
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
-
-// Adiciona um interceptador na resposta
-api.interceptors.response.use((response) => {
-  const endTime = new Date();
-  response.config.metadata.endTime = endTime;
-  response.duration = endTime - response.config.metadata.startTime;
-  console.log(`Request to ${response.config.url} took ${response.duration} ms`);
-  return response;
-}, (error) => {
-  return Promise.reject(error);
-});
-
 export default {
   name: 'CustomerPage',
   setup() {
@@ -67,6 +48,14 @@ export default {
   components: {
     AddOrder,
     OrdersView
+  },
+  created() {
+    const client_id = localStorage.getItem('id');
+    const client_role = localStorage.getItem('role');
+
+    if(client_role != 'customer') {
+      window.location.hash = '/:catchFailLogin(.*)*'
+    }
   }
 }
 </script>

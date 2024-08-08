@@ -1,9 +1,8 @@
 <template>
   <div class="row justify-center">
-    <div class="col-md-6 q-py-lg">
+    <div class="col-md-6 q-py-lg" style="position: relative;">
       <q-form
       class="q-gutter-md bg-light-green-3 q-pa-md rounded-borders shadow-3"
-      @submit="SubmitFormLogin"
       autocomplete="off"
       >
         <q-input
@@ -45,10 +44,14 @@
              label="Sign In"
              color="green"
              type="submit"
+             @click="submitFormLogin"
             />
           </div>
         </div>
       </q-form>
+      <div class="info-login" v-show="!successfulLogin">
+        <span>Email or password is incorrect</span>
+      </div>
     </div>
   </div>
 </template>
@@ -62,22 +65,81 @@ export default defineComponent({
   setup (_, {emit}) {
     const MailClient = ref('');
     const PasswordClient = ref('');
+    const successfulLogin = ref(true);
 
     const slideForm = () => {
       emit('slide-form');
     }
 
+    const submitFormLogin = async() => {
+      try {
+        successfulLogin.value = await ClientLogin(MailClient.value, PasswordClient.value);
+        await enterPage();
+      } catch (error) {
+        console.error('A error has been detected in login', error);
+      }
+    }
+
+    const enterPage = () => {
+      return new Promise((resolve, reject) => {
+        const role = localStorage.getItem('role');
+
+        if(role && successfulLogin.value) {
+          window.location.hash = `/${role}`
+          resolve();
+        } else {
+
+          reject("The role wasn't defined");
+        }
+      })
+    }
+
+
     return {
       PasswordClient,
       MailClient,
+      successfulLogin,
+      submitFormLogin,
       slideForm
     }
   },
-  methods: {
-    SubmitFormLogin() {
-      ClientLogin(this.MailClient, this.PasswordClient);
-
-    }
+  created() {
+    localStorage.setItem('token', null);
+    localStorage.setItem('role', null);
   }
 })
 </script>
+
+<style>
+.info-login {
+  position: absolute;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+  animation: shake .4s ease-out;
+}
+
+.info-login span {
+  font-size: 22px;
+  color: red;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0%);
+  }
+  25% {
+    transform: translateX(5%);
+  }
+  50% {
+    transform: translateX(-5%);
+  }
+  75% {
+    transform: translateX(5%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+</style>

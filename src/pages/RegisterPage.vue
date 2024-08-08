@@ -1,57 +1,50 @@
 <template>
   <q-page-container>
     <transition name="fade">
-      <q-page class="row justify-center" v-show="showLogin" >
+      <q-page class="row justify-center" v-show="showRegister">
         <transition name="slide-left">
-          <div v-if="showLogin" class="col-md-7 bg-login slide-back-right"></div>
+          <div class="col-md-5 column justify-center slide-back-right" v-if="showRegister">
+            <Register @slide-form="onSlideFormRegister"/>
+          </div>
         </transition>
         <transition name="slide-right">
-          <div class="col-md-5 slide-back-left column justify-center " v-if="showLogin">
-              <h3 class="column items-center ">
-                Welcome again
-              </h3>
-              <Login @slide-form="onSlideFormLogin"/>
-              <h6 class="column items-center q-pt-xl">
-                &copy; BarbShop, 2024
-              </h6>
-          </div>
+          <div v-if="showRegister" class="col-md-7 bg-register slide-back-left "></div>
         </transition>
       </q-page>
     </transition>
 
     <LoadindForm v-bind:triggerLoading="showLoading"/>
-
   </q-page-container>
 </template>
 
 <script>
-import Login from 'src/components/Login.vue';
+import Register from 'src/components/Register.vue';
 import LoadindForm from 'src/components/Loading.vue';
 import {ref} from 'vue';
 
 
 export default {
-  name: 'LoginPage',
+  name: 'RegisterPage',
   setup() {
-      const showLogin = ref(true);
+      const showRegister = ref(true);
       const showLoading = ref(null);
 
-      const onSlideFormLogin = () => {
-        showLogin.value = false;
+      const onSlideFormRegister = () => {
+        showRegister.value = false;
         showLoading.value = true;
         setTimeout(()=> {
-          window.location.hash = 'register'
-        }, 500)
-    }
+          window.location.hash = 'login'
+        }, 500);
+      }
 
     return {
+      showRegister,
       showLoading,
-      showLogin,
-      onSlideFormLogin
+      onSlideFormRegister
     }
   },
   components: {
-    Login,
+    Register,
     LoadindForm
   }
 
@@ -75,7 +68,6 @@ export default {
   transform: translateX(-200%);
 }
 
-
 .slide-back-right {
   animation: slideBackRight .5s;
 }
@@ -90,13 +82,6 @@ export default {
   background-size: cover;
   background-position: center right;
   box-shadow: -5px 0px 5px rgba(0, 0, 0, 0.288) ;
-}
-
-.bg-login {
-  background-image: url('/img/barb-bg-login.jpg');
-  background-size: cover;
-  background-position: center right;
-  box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.288) ;
 }
 
 

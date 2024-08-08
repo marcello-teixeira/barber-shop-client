@@ -194,6 +194,14 @@ export default {
   },
   components: {
     AddHaircut
+  },
+  created() {
+    const client_id = localStorage.getItem('id');
+    const client_role = localStorage.getItem('role');
+
+    if(client_role != 'company') {
+      window.location.hash = '/:catchFailLogin(.*)*'
+    }
   }
 }
 </script>

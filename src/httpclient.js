@@ -26,8 +26,11 @@ export async function ClientLogin(mail, password) {
       }
     );
 
-    return localStorage.setItem('token', response.data.tokenJwt);
+    localStorage.setItem('token', response.data.token.tokenJwt);
+    localStorage.setItem('role', response.data.role);
+    localStorage.setItem('id', response.data.id);
 
+    return true;
   } catch (error) {
     console.error("Error in LoginClient", error);
     return;

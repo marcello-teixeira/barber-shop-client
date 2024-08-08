@@ -31,9 +31,7 @@
           </q-item>
         </q-list>
     <div class="col-9 column items-center" >
-        <q-btn class="button-hover" flat :to="'home'">
           <IconBarb />
-      </q-btn>
     </div>
   </q-header>
 
