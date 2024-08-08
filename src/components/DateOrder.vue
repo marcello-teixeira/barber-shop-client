@@ -43,6 +43,7 @@
                 <q-item-label>
                   {{ scope.opt }}
                 </q-item-label>
+                <q-separator />
               </q-item-section>
             </q-item>
         </template>

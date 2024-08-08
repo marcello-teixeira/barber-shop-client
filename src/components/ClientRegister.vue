@@ -116,7 +116,7 @@
 <script>
 import { ref } from 'vue';
 import { Notify } from 'quasar';
-import { ClientRegister} from '../httpclient';
+import { ClientRegister } from '../httpclient';
 import Location from './Location.vue'
 
 export default {

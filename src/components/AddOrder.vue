@@ -1,20 +1,19 @@
 <template>
-  <div class="row">
+  <div class="flex column form-neworder">
+    <h3 class="text-center" style="margin-top: 0px; border-bottom: 5px solid #799693;">
+    Get a new haircut?
+    </h3>
     <q-form
-    class="col-4"
+    class="col"
     >
-      <h3 class="text-center" style="margin-top: 0px;">
-        Get a new haircut?
-      </h3>
-
-      <div class="inputs-border q-gutter-sm">
+      <div class="q-gutter-sm">
         <OrderToCompany
           @select-company="selectCompany"
           @reset-order="resetOrder"
           :CompanySelect="companySelected"
         />
 
-        <div v-show="companySelected.name" class="location-company "><span style="font-size: 18px; font-weight: bolder;display: block;">Location </span>{{ companySelected.location || ''}}</div>
+        <div v-show="companySelected.name" class="location-company q-mb-lg "><span style="font-size: 18px; font-weight: bolder;display: block;">Location </span>{{ companySelected.location || ''}}</div>
 
         <DateOrder
         @get-fulldatetime="setFullDatetime"
@@ -22,29 +21,28 @@
         :Date="date"
         :Time="time" />
 
-        <HaircutOrder
-        v-show="companySelected.name"
-        @get-haircuts-company="setHaircutsCompany"
-        :Haircuts="haircuts" />
-
-        <div class="row justify-center q-gutter-sm">
-          <q-btn
-          class="col-md-3"
-          type="reset"
-          icon="clear"
-          @click="resetOrder"
-          color="red"
-          />
-          <q-btn
-            class="col-md-4 q-ml-xl"
-            type="submit"
-            icon="content_cut"
-            @click="submitNewOrder"
-            color="green"
-          />
+        <div >
+          <HaircutOrder
+          v-show="companySelected.name"
+          @get-haircuts-company="setHaircutsCompany"
+          :Haircuts="haircuts" />
         </div>
-
-
+      </div>
+      <div class="row justify-center q-mt-md q-gutter-sm">
+            <q-btn
+            class="col-md-3"
+            type="reset"
+            icon="clear"
+            @click="resetOrder"
+            color="red"
+            />
+            <q-btn
+              class="col-md-4 q-ml-xl"
+              type="submit"
+              icon="content_cut"
+              @click="submitNewOrder"
+              color="green"
+            />
       </div>
     </q-form>
   </div>
@@ -61,7 +59,7 @@ import {ref} from 'vue';
 
 export default {
   name: 'NewHaircut',
-  setup () {
+  setup (_, {emit}) {
     const selecthaircut = ref({})
     const companySelected = ref({});
     const dateOrders = ref([]);
@@ -77,7 +75,8 @@ export default {
     const setFullDatetime = (dateArg, timeArg) => {
       date.value = dateArg;
       time.value = timeArg;
-      fullDate.value = date.value+"T"+time.value+":00"
+
+      fullDate.value = date.value+"T"+time.value+":00";
     }
 
     const getHaircuts = (companyId) => {
@@ -97,7 +96,7 @@ export default {
 
       getHaircuts(company.id);
       getDateOrders(company.id);
-    }
+    };
 
     const resetOrder = () => {
       companySelected.value = {};
@@ -109,20 +108,20 @@ export default {
 
     const submitNewOrder = (e) => {
       e.preventDefault();
+      emit('refresh-table-orders');
 
       api.post('orders/new', {
-        CompanyID: companySelected.value.id,
-        CompanyName: companySelected.value.name,
-        CompanyPhone: companySelected.value.phone,
-        CompanyLocation: companySelected.value.location,
-        HaircutID: selecthaircut.value.id,
-        HaircutName: selecthaircut.value.name,
-        HaircutCost: selecthaircut.value.cost,
-        HaircutDate: fullDate.value,
+        companyID: companySelected.value.id,
+        companyName: companySelected.value.name,
+        companyPhone: companySelected.value.phone,
+        companyLocation: companySelected.value.location,
+        haircutID: selecthaircut.value.id,
+        haircutName: selecthaircut.value.name,
+        haircutCost: selecthaircut.value.cost,
+        haircutDate: fullDate.value,
       });
 
     }
-
 
     return {
       setFullDatetime,
@@ -136,17 +135,27 @@ export default {
       companySelected,
       date,
       time
+
     }
   },
   components: {
     OrderToCompany,
     DateOrder,
-    HaircutOrder
-  }
+    HaircutOrder,
+
+
+  },
+  emits: [
+    'refresh-table-orders'
+  ]
 }
 </script>
 
 <style>
+
+::-webkit-scrollbar {
+  width: 0px;
+}
 
 .select-haircut {
   font-size: 18px;
@@ -170,12 +179,14 @@ export default {
   border-radius: 4px;
 }
 
-.inputs-border {
+.form-neworder {
   background-color: #ccc;
   border: 1px solid #ccc;
+  max-height: 850px;
   border-radius: 5px;
   padding: 10px;
-  height: 740px;
+  overflow-y: auto;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.205);
 }
 
 .location-company {

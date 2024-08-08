@@ -29,8 +29,8 @@
         <q-item v-for="company in filteredCompanies" :key="company.id" @click="selectCompany(company)" clickable>
           <q-item-section>
             {{ company.name + ", " + company.location }}
+            <q-separator />
           </q-item-section>
-          <q-separator></q-separator>
         </q-item>
       </q-list>
 </template>

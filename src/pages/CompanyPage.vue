@@ -17,14 +17,14 @@
         <template v-slot:body-cell-haircutDone="props">
           <q-td :props="props">
             <q-icon
-              class="done-icon"
+              class="table-icon"
               v-if="props.row.haircutDone === false"
               name="cancel"
               color="red"
             ></q-icon>
             <q-icon
               v-else
-              class="done-icon"
+              class="table-icon"
               name="check_circle"
               color="green"
             ></q-icon>
@@ -121,7 +121,7 @@ const columns = [
   {name: 'haircutName',label: 'Haircut',field: 'haircutName',align: 'left'},
   {name: 'haircutCost',label: 'Cost',field: 'haircutCost',align: 'left'},
   {name: 'haircutDate',label: 'Date',field: 'haircutDate',sortable: true,align: 'left'},
-  {name: 'haircutDone',label: 'Done',field: 'haircutDone',sortable: true,align: 'left'}
+  {name: 'haircutDone',label: 'Finished',field: 'haircutDone',sortable: true,align: 'left'}
 ]
 
 const rows = ref([]);
@@ -243,7 +243,7 @@ export default {
   height: 100px;
 }
 
-.done-icon {
+.table-icon {
   font-size: 40px;
   position: relative;
   left: 21%;
