@@ -10,7 +10,6 @@ api.interceptors.request.use(
     if(token) {
       config.headers.Authorization = `Bearer ${token}`;
       config.headers.Accept = '*/*';
-      config.headers["Content-Type"] = 'application/json';
     }
     return config;
   }
@@ -44,7 +43,8 @@ export function ClientRegister(FormData, route) {
       FormData,
       {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'accept': '*/*'
         }
       }
     )

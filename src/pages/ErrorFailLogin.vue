@@ -14,7 +14,7 @@
         color="white"
         text-color="green"
         unelevated
-        to="/view/login"
+        to="/login"
         label="Back to Login"
         no-caps
       />

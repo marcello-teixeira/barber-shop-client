@@ -72,13 +72,13 @@ export default {
   width: 50px;
   height: 50px;
   padding: 5px;
-  color: black;
   transition: color .5s;
+  color: black;
   cursor: pointer;
 }
 
 .logo-menu:hover {
-  color: #21BA45;
+  color: #10a596;
 }
 
 </style>

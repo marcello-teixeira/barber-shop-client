@@ -1,14 +1,14 @@
 <template>
-  <q-layout view="hHh Lpr fFf">
+  <q-layout view="hHh Lpr fff">
   <q-header class="row layout-color" elevated>
         <q-list class="row" >
-          <q-item v-ripple clickable :to="'home'" :active-class="'color-item'">
+          <q-item v-ripple clickable :to="'/'" style="color: #fff;">
             <q-item-section class="column items-center">
               <q-icon
                 name="home"
                 size="sm"
               />
-              Home
+
             </q-item-section>
           </q-item>
           <q-item v-ripple clickable :to="'login'" :active-class="'color-item'" >
@@ -20,7 +20,7 @@
               Login
             </q-item-section>
           </q-item>
-          <q-item v-ripple clickable :active-class="'color-item'">
+          <q-item v-ripple clickable :to="'support'" :active-class="'color-item'">
             <q-item-section class="column items-center">
               <q-icon
                 name="support_agent"
@@ -37,6 +37,9 @@
 
     <router-view/>
 
+  <q-footer class="footer-home">
+    © {{ year }} Barbshop. All Rights Reserved
+  </q-footer>
   </q-layout>
 </template>
 
@@ -45,6 +48,13 @@ import IconBarb from '../components/IconBarb.vue'
 
 export default {
   name: 'MainLayout',
+  setup() {
+    const year = new Date().getFullYear();
+
+    return {
+      year
+    }
+  },
   components: {
     IconBarb
   }
@@ -61,6 +71,9 @@ export default {
   color: #21BA45;
 }
 
-
+.footer-home {
+  padding: 50px;
+  text-align: center;
+}
 
 </style>

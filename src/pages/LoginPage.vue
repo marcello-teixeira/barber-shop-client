@@ -93,6 +93,7 @@ export default {
 }
 
 .bg-login {
+  height: 90dvh;
   background-image: url('/img/barb-bg-login.jpg');
   background-size: cover;
   background-position: center right;

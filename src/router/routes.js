@@ -1,10 +1,11 @@
 const routes = [
   {
     path: '/view',
-    component: () => import('src/layouts/ClientView.vue'),
+    component: () => import('src/layouts/CustomerView.vue'),
       children: [
         {path: 'customer' ,component: () => import('src/pages/CustomerPage.vue')},
-        {path: 'company', component: ()=> import('src/pages/CompanyPage.vue')}
+        {path: 'company', component: ()=> import('src/pages/CompanyPage.vue')},
+        {path: 'support', component: () => import('src/pages/SupportPage.vue')}
       ]
   },
   {
@@ -13,7 +14,8 @@ const routes = [
     children: [
       {path: '', component: () => import('src/pages/HomePage.vue')},
       { path: 'login', component: () => import('src/pages/LoginPage.vue') },
-      { path: 'register', component: () => import('src/pages/RegisterPage.vue') }
+      { path: 'register', component: () => import('src/pages/RegisterPage.vue') },
+      {path: 'support', component: () => import('src/pages/SupportPage.vue')}
     ]
   },
   {

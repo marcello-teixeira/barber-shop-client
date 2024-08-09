@@ -85,7 +85,7 @@ export default defineComponent({
         const role = localStorage.getItem('role');
 
         if(role && successfulLogin.value) {
-          window.location.hash = `/${role}`
+          window.location.hash = `/view/${role}`
           resolve();
         } else {
 
@@ -122,6 +122,7 @@ export default defineComponent({
 .info-login span {
   font-size: 22px;
   color: red;
+  font-weight: bold;
 }
 
 @keyframes shake {

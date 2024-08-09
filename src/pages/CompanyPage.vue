@@ -208,6 +208,21 @@ export default {
 
 <style>
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #8F8F8F;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fff;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+
 .date-bg {
    background-color: rgb(58, 75, 58);
    color: #ffffffc2;
@@ -242,9 +257,6 @@ export default {
   padding-right: 15px;
 }
 
-.open-orders::-webkit-scrollbar {
-  width: 0px;
-}
 
 .noDateTable {
   width: 400px;
@@ -273,9 +285,7 @@ export default {
   border-radius: 5px;
 }
 
-.q-table__middle::-webkit-scrollbar {
-  width: 0px;
-}
+
 
 .q-table__top {
   background-color: transparent;

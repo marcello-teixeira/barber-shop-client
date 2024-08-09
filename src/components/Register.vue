@@ -260,7 +260,11 @@ export default {
 
       ClientRegister(formData, route);
 
-
+      Notify.create({
+        message: 'Successfully registered!',
+        color: 'positive',
+        position: 'top'
+      })
     },
     IsCompany() {
       this.Inputs.CNPJ.visible = this.OnCompany;
