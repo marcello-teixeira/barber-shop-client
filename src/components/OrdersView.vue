@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import api from '../httpclient';
 import {ref, watch, computed} from 'vue';
 
 const columns = [
@@ -86,6 +85,20 @@ export default {
 </script>
 
 <style>
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #8F8F8F;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fff;
+  border-radius: 5px;
+  z-index: 1;
+}
 
 .table-icon {
   font-size: 40px;

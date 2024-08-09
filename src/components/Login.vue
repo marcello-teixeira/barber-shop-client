@@ -104,8 +104,9 @@ export default defineComponent({
     }
   },
   created() {
-    localStorage.setItem('token', null);
-    localStorage.setItem('role', null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('id');
   }
 })
 </script>

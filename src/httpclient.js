@@ -4,6 +4,25 @@ const api = axios.create({
   baseURL: 'https://localhost:7290/'
 });
 
+export async function getProfilePicture() {
+  const clientId = localStorage.getItem('id');
+  const response = await api.get(`customer/photo/${clientId}`, {responseType: 'arraybuffer'});
+
+  if(response && response.data) {
+    return new Promise((resolve, reject) => {
+      if(response && response.data) {
+        const bytesPhoto = new Uint8Array(response.data);
+        const blob = new Blob([bytesPhoto], {type: 'image/jpg'});
+        const urlImage = URL.createObjectURL(blob);
+        resolve(urlImage);
+      } else {
+        reject('Error in loading profile image');
+      }
+    })
+
+  }
+}
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -39,7 +58,7 @@ export async function ClientLogin(mail, password) {
 export function ClientRegister(FormData, route) {
   try {
     api.post(
-      `${route}/post`,
+      `${route}`,
       FormData,
       {
         headers: {

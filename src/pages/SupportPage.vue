@@ -10,7 +10,11 @@
         <div class="col-6 column items-center ">
           <h2>Chat with us</h2>
           <div>
-            <input type="text" placeholder="Say anything to begin the chat...">
+            <q-btn
+              label="START CHAT"
+              color="grey"
+              class="text-black"
+            />
           </div>
         </div>
         <div class="col-6 column items-center">
@@ -36,10 +40,6 @@ export default {
 
 <style scoped>
 
-input[type = text] {
-  width: 200px;
-  border-radius: 5px;
-  border: 1px solid black;
-}
+
 
 </style>

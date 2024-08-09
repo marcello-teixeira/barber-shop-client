@@ -70,7 +70,7 @@ export default {
     }
 
     const getCompanies = async () => {
-      const response = await api.get('company/get');
+      const response = await api.get('company');
       companies.value = response.data;
 
       return response.data;

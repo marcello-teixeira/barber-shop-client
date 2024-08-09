@@ -14,7 +14,7 @@
         color="white"
         text-color="blue"
         unelevated
-        to="/"
+        to="/view/support"
         label="Go Home"
         no-caps
       />

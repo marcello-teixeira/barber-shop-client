@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import {onMounted, ref} from 'vue';
+import { ref} from 'vue';
 import api from '../httpclient';
 import { Notify } from 'quasar';
 

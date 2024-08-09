@@ -9,14 +9,19 @@
           @click="isLeftDrawerVisible = !isLeftDrawerVisible"
         />
       </q-toolbar>
-      <div class="col-4 items-center column">
+      <div class="col-4 items-center justify-center column">
         <IconBarb/>
       </div>
       <div class="col-4 items-end column">
         <q-avatar
           circle
-          img=""
-        />
+          class="avatar cursor-pointer"
+        >
+          <img :src="urlProfilePicture" alt="Profile Picture">
+          <q-popup-proxy>
+            setting
+          </q-popup-proxy>
+        </q-avatar>
       </div>
     </q-header>
 
@@ -92,16 +97,36 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue';
 import IconBarb from 'src/components/IconBarb.vue';
+import {getProfilePicture} from '../httpclient.js';
+import api from '../httpclient.js';
 
 export default {
   name: 'LayoutName',
 
   setup () {
+    const urlProfilePicture = ref('');
+    const infoCustomer = ref([]);
+
+    const getImageProfile = async () => {
+      urlProfilePicture.value = await getProfilePicture();
+    }
+
+    const getInfoCustomer = () => {
+      const clientId = localStorage.getItem('id');
+      api.get(`customer/${clientId}`).then(resp => infoCustomer.value = resp.data);
+    }
+
+    onMounted(() => {
+      getImageProfile();
+      getInfoCustomer();
+    })
+
     return {
       isLeftDrawerVisible: ref(false),
-      year: new Date().getFullYear()
+      year: new Date().getFullYear(),
+      urlProfilePicture
     }
   },
   components: {
@@ -111,6 +136,13 @@ export default {
 </script>
 
 <style>
+.avatar {
+  margin: 10px;
+}
+
+.avatar img {
+  border: 2px solid black;
+}
 
 .item-left-items {
   padding: 15px;
