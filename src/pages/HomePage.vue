@@ -4,11 +4,11 @@
       <div class="col-12">
         <div class="title-page" v-show="titlePageShow">
           <h1>BARBSHOP</h1>
-          <p id="phaseOne">
-            The best page to manage your barbershop
+          <p id="first-phase">
+            The best page to manage your barbershop,
           </p>
-          <p id="phaseTwo">
-            or find your new style
+          <p id="second-phase">
+            or find your new style.
           </p>
         </div>
         <q-carousel
@@ -166,6 +166,8 @@ export default {
 
 <style scoped>
 
+
+
 .text-banner-home {
   background: #2f3030;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -280,9 +282,21 @@ export default {
 }
 
 .title-page h1 {
+  position: relative;
   margin-top: 0;
   color: transparent;
   animation: fadeIn 0.5s 0.8s forwards;
+}
+
+.title-page h1::before {
+  content: '';
+  position: absolute;
+  width: 465px;
+  height: 6px;
+  background-color: transparent;
+  top: 90%;
+  left: 0;
+  animation: fadeDecoration .5s 1.3s ease forwards;
 }
 
 .title-page h1::after {
@@ -302,12 +316,16 @@ export default {
   left: 15%;
 }
 
-#phaseOne {
+#first-phase {
   color: transparent;
   animation: fadeIn 0.5s 1.3s forwards;
+  width: 450px;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: all .3s ease;
 }
 
-#phaseOne::after {
+#first-phase::after {
   content: '';
   position: absolute;
   width: 500px;
@@ -318,12 +336,15 @@ export default {
   animation: showText 1.5s 0.5s cubic-bezier(0.85, 0, 0.15, 1) forwards;
 }
 
-#phaseTwo {
+#second-phase {
   color: transparent;
   animation: fadeIn 0.5s 1.7s forwards;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: all .3s ease;
 }
 
-#phaseTwo::after {
+#second-phase::after {
   content: '';
   position: absolute;
   width: 500px;
@@ -334,11 +355,20 @@ export default {
   animation: showText 1.5s 0.9s cubic-bezier(0.85, 0, 0.15, 1) forwards;
 }
 
+.title-page:hover #first-phase, .title-page:hover #second-phase {
+  text-decoration-color: red;
+}
+
+@keyframes fadeDecoration {
+  to {
+    background-color: red;
+  }
+}
 
 @keyframes showText {
   from {
     transform: translateX(-100%);
-    background-color: #000;
+    background-color: #d1d1d1;
   }
   to {
     transform: translateX(150%);
