@@ -10,7 +10,7 @@
         </div>
         <div class="col-3 q-ml-xl">
 
-          <div v-for="(info, key) in infoClient" :key="key" v-show="key !== 'id' && key !== 'photo'">
+          <div v-for="(info, key) in infoClient" :key="key" v-show="key !== 'id' && key !== 'photo' && key != 'avaliableAgenda'">
              <p class="title-info">
               {{ `${key}`.toUpperCase() }}
              </p>
@@ -121,8 +121,6 @@ export default {
       clientRole.value = localStorage.getItem('role');
       getPhoto();
       getInfoClient();
-
-      console.log(components)
     })
 
     return {

@@ -41,7 +41,7 @@
       label="Hour"
       :rules="[val => val.length === 5]"
       v-show="date"
-      @update:model-value="getTime(time)"
+      @update:model-value="getFullDateTime()"
       >
           <q-popup-proxy>
             <template v-slot:option="scope">
@@ -130,7 +130,6 @@ export default {
     watch(() => props.Date,
       (newVal)=>{
         date.value = newVal
-        console.log(date.value);
       },
       {
         immediate:true

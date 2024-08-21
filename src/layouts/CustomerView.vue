@@ -10,7 +10,9 @@
         />
       </q-toolbar>
       <div class="col-4 items-center justify-center column">
-        <IconBarb/>
+        <IconBarb
+        :Path="`/view/${pathRole}`"
+        />
       </div>
       <div class="col-4 items-end column">
         <q-avatar
@@ -18,8 +20,21 @@
           class="avatar cursor-pointer"
         >
           <img :src="urlProfilePicture">
-          <q-popup-proxy>
-            setting
+          <q-popup-proxy class="popup-profile">
+            <q-btn
+              class="block q-pa-md"
+              label="Settings"
+              icon="settings"
+              flat
+              @click="inPath('/view/settings')"
+            />
+            <q-btn
+              class="q-pa-md q-pr-lg"
+              label="Logoff"
+              icon="logout"
+              flat
+              @click="inPath('/')"
+            />
           </q-popup-proxy>
         </q-avatar>
       </div>
@@ -28,7 +43,7 @@
     <q-drawer v-model="isLeftDrawerVisible" show-if-above class="bg-grey row">
       <q-list class="col-12">
         <q-item
-        :to="'customer'"
+        :to="pathRole"
         clickable
         class="item-left-items">
             <q-icon
@@ -119,8 +134,15 @@ export default {
   name: 'LayoutName',
 
   setup () {
+    const pathRole = ref('');
     const urlProfilePicture = ref('');
     const infoCustomer = ref([]);
+    const isLeftDrawerVisible = ref(false);
+    const date = ref('');
+
+    const inPath = (path) => {
+      window.location.hash = path;
+    }
 
     const getImageProfile = async () => {
       urlProfilePicture.value = await getProfilePicture();
@@ -132,14 +154,17 @@ export default {
     }
 
     onMounted(() => {
+      pathRole.value = localStorage.getItem('role');
       getImageProfile();
     })
 
     return {
-      isLeftDrawerVisible: ref(false),
       year: new Date().getFullYear(),
+      isLeftDrawerVisible,
       urlProfilePicture,
-      date: ref('')
+      date,
+      pathRole,
+      inPath
     }
   },
   components: {
@@ -164,6 +189,10 @@ export default {
 .label-left-items {
   margin-left: 30px;
   font-size: 20px;
+}
+
+.popup-profile {
+  width: 7.3dvw;
 }
 
 

@@ -1,51 +1,48 @@
 <template>
-  <div class="flex column form-neworder">
-    <h3 class="text-center" style="margin-top: 0px; border-bottom: 5px solid #799693;">
-    Get a new haircut?
-    </h3>
-    <q-form
-    class="col"
-    >
-      <div class="q-gutter-sm">
-        <OrderToCompany
-          @select-company="selectCompany"
-          @reset-order="resetOrder"
-          :CompanySelect="companySelected"
-        />
-
-        <div v-show="companySelected.name" class="location-company q-mb-lg "><span style="font-size: 18px; font-weight: bolder;display: block;">Location </span>{{ companySelected.location || ''}}</div>
-
-        <DateOrder
-        @get-fulldatetime="setFullDatetime"
-        :DateOrders="dateOrders"
-        :Date="date"
-        :Time="time" />
-
-        <div >
-          <HaircutOrder
-          v-show="companySelected.name"
-          @get-haircuts-company="setHaircutsCompany"
-          :Haircuts="haircuts"
-          :ChooseHaircut="selectHaircut"/>
+    <div class="flex column new-order">
+      <h3 class="text-center" style="margin-top: 0px; border-bottom: 5px solid #799693;">
+      Get a new haircut?
+      </h3>
+      <q-form
+      class="col"
+      >
+        <div class="q-gutter-sm">
+          <OrderToCompany
+            @select-company="selectCompany"
+            @reset-order="resetOrder"
+            :CompanySelect="companySelected"
+          />
+          <div v-show="companySelected.name" class="location-company q-mb-lg "><span style="font-size: 18px; font-weight: bolder;display: block;">Location </span>{{ companySelected.location || ''}}</div>
+          <DateOrder
+          @get-fulldatetime="setFullDatetime"
+          :DateOrders="dateOrders"
+          :Date="date"
+          :Time="time" />
+          <div >
+            <HaircutOrder
+            v-show="companySelected.name"
+            @get-haircuts-company="setHaircutsCompany"
+            :Haircuts="haircuts"
+            :ChooseHaircut="selectHaircut"/>
+          </div>
         </div>
-      </div>
-      <div class="row justify-center q-mt-md q-gutter-sm">
-            <q-btn
-            class="col-md-3"
-            type="reset"
-            icon="clear"
-            @click="resetOrder"
-            color="red"
-            />
-            <q-btn
-              class="col-md-4 q-ml-xl"
-              icon="content_cut"
-              @click="submitNewOrder"
-              color="green"
-            />
-      </div>
-    </q-form>
-  </div>
+        <div class="row justify-center q-mt-md q-gutter-sm">
+              <q-btn
+              class="col-md-3"
+              type="reset"
+              icon="clear"
+              @click="resetOrder"
+              color="red"
+              />
+              <q-btn
+                class="col-md-4 q-ml-xl"
+                icon="content_cut"
+                @click="submitNewOrder"
+                color="green"
+              />
+        </div>
+      </q-form>
+    </div>
 </template>
 
 <script>
@@ -128,7 +125,8 @@ export default {
         haircutName: selectHaircut.value.name,
         haircutCost: selectHaircut.value.cost,
         haircutDate: fullDate.value,
-      });
+      }).then(_ => resetOrder());
+
     }
 
     return {
@@ -184,14 +182,14 @@ export default {
   border-radius: 4px;
 }
 
-.form-neworder {
+.new-order {
   background-color: #ccc;
   border: 1px solid #ccc;
-  height: auto;
   border-radius: 5px;
   padding: 10px;
   overflow-y: auto;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.205);
+  transition: auto 1s;
 }
 
 .location-company {
@@ -201,5 +199,6 @@ export default {
   text-align: start;
   background-color: #2a645e83;
 }
+
 
 </style>

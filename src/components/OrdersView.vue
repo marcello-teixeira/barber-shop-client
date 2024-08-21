@@ -18,6 +18,11 @@
        {{editDatetime(data.row.haircutDate)}}
       </q-td>
     </template>
+    <template v-slot:body-cell-haircutCost="data">
+      <q-td :props="data">
+       {{"$ "+data.row.haircutCost}}
+      </q-td>
+    </template>
     <template v-slot:body-cell-haircutDone="data">
       <q-td :props="data">
         <q-icon
@@ -34,15 +39,6 @@
         ></q-icon>
       </q-td>
     </template>
-    <template v-slot:body-cell-actions>
-      <q-td>
-        <q-icon
-          name="archive"
-          class="table-icon cursor-pointer"
-          color="brown-8"
-        />
-      </q-td>
-    </template>
     </q-table>
   </div>
 </template>
@@ -57,8 +53,7 @@ const columns = [
   {name: 'haircutName',label: 'Haircut',field: 'haircutName',align: 'left'},
   {name: 'haircutCost',label: 'Cost',field: 'haircutCost',align: 'left'},
   {name: 'haircutDate',label: 'Date',field: 'haircutDate',sortable: true,align: 'left'},
-  {name: 'haircutDone',label: 'Finished',field: 'haircutDone',sortable: true,align: 'left'},
-  {name: 'actions',label: 'Actions',field: 'actions',sortable: true,align: 'left'}
+  {name: 'haircutDone',label: 'Finished',field: 'haircutDone',sortable: true,align: 'left'}
 ]
 
 

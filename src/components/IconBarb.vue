@@ -55,12 +55,18 @@
 
 export default {
   name: 'IconBarb',
-  setup () {
+  setup (props) {
     const path = () => {
-      window.location.hash = '/';
+      window.location.hash = props.Path;
     }
     return {
       path
+    }
+  },
+  props: {
+    Path: {
+      Type: String,
+      required: true
     }
   }
 }

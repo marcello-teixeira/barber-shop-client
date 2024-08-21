@@ -66,7 +66,7 @@
                 {{ `N° ${col.id}` }}
               </div>
               <div class="col-3 column items-center border-left q-pt-sm date-bg" style="font-size: 38px;">
-                {{ new Date(col.haircutDate).getDate() }}
+                {{ String(new Date(col.haircutDate).getDate()).padStart(2, "0") }}
               </div>
             </q-card-section>
             <q-card-section class="row">
@@ -75,7 +75,7 @@
               </div>
               <div class="col-3 column items-center border-left date-bg"
               style="font-size: 18px;">
-                {{ new Date(col.haircutDate).getMonth()+1 + "/" + new Date(col.haircutDate).getFullYear()}}
+                {{ String(new Date(col.haircutDate).getMonth()+1).padStart(2,"0") + "/" + new Date(col.haircutDate).getFullYear()}}
               </div>
             </q-card-section>
             <q-card-section class="row">
@@ -285,14 +285,15 @@ export default {
   border-radius: 5px;
 }
 
-
-
 .q-table__top {
   background-color: transparent;
   border: none;
   margin: 15px;
 }
 
+.q-card__section--vert {
+  padding: 0;
+}
 
 .order-table thead tr th{
   position: sticky;

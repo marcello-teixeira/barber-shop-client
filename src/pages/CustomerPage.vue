@@ -1,10 +1,11 @@
 <template>
   <q-page-container>
     <q-page padding class="row q-gutter-lg justify-center">
-      <AddOrder
-      class="col-md-3"
-      @refresh-table-orders="refreshTableOrders"
-      />
+      <div class="col-3 column justify-center">
+        <AddOrder
+        @refresh-table-orders="refreshTableOrders"
+        />
+      </div>
 
       <OrdersView
       class="col-md-8"
@@ -58,3 +59,7 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>
