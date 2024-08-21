@@ -4,24 +4,30 @@
         v-model="date"
         label="Date"
         :rules="verifyDate()"
-        @input="console.log('ok')"
-
+        @focus="time = ''"
       >
         <template v-slot:prepend>
           <q-icon
-          name="event"
-          class="cursor-pointer"
-          @click="showPopupDate = true"
+            name="event"
+            class="cursor-pointer"
           >
             <q-popup-proxy
               cover
               transition-show="scale"
               transition-hide="scale"
+              @before-hide="getFullDateTime"
             >
               <q-date
                 v-model="date"
                 mask="YYYY-MM-DD"
               >
+              <div class="column">
+                  <q-btn
+                    label="close"
+                    color="primary"
+                    v-close-popup
+                  />
+              </div>
               </q-date>
             </q-popup-proxy>
           </q-icon>
@@ -31,31 +37,33 @@
       <q-select
       filled
       v-model="time"
-      :options="hours"
+      :options="filteredHours"
       label="Hour"
-      :rules="[val => val.length > 0]"
+      :rules="[val => val.length === 5]"
       v-show="date"
+      @update:model-value="getTime(time)"
       >
-        <template v-slot:option="scope"
-        >
-            <q-item clickable v-show="isTimeAvaliable(scope.opt)">
-              <q-item-section @click="getfullDateTime(scope.opt)">
-                <q-item-label>
-                  {{ scope.opt }}
-                </q-item-label>
-                <q-separator />
-              </q-item-section>
-            </q-item>
-        </template>
+          <q-popup-proxy>
+            <template v-slot:option="scope">
+                <q-item clickable>
+                  <q-item-section>
+                    <q-item-label>
+                      {{ scope.opt }}
+                    </q-item-label>
+                    <q-separator />
+                  </q-item-section>
+                </q-item>
+            </template>
+          </q-popup-proxy>
       </q-select>
 </template>
 
 <script>
-import {ref, watch} from 'vue';
+import {computed, ref, watch} from 'vue';
 
-const hours = [
-  '8:00', '8:30',
-  '9:00', '9:30',
+const companyHours = [
+  '08:00', '08:30',
+  '09:00', '09:30',
   '10:00', '10:30',
   '11:00', '11:30',
   '12:00', '12:30',
@@ -74,49 +82,55 @@ export default {
   setup (props, {emit}) {
     const date = ref('');
     const time = ref('');
-    const showPopupDate = ref(false);
 
     const verifyDate = () => {
-      const ObjectDate = new Date();
+      const orderDate = new Date();
 
-      const year = ObjectDate.getFullYear().toString();
-      const monthCrude = ObjectDate.getMonth()+1;
+      const year = orderDate.getFullYear().toString();
+      const monthCrude = orderDate.getMonth()+1;
       const month = monthCrude.toString().padStart(2, '0');
-      const day = ObjectDate.getDate().toString().padStart(2, '0');
+      const day = orderDate.getDate().toString().padStart(2, '0');
 
       const fullDate = `${year}-${month}-${day}`
 
       return [val => new Date(val) >= new Date(fullDate)];
     }
 
-
-    const isTimeAvaliable = (datetime) => {
-      const formattedTime = datetime.padStart(5, '0');
-
-      return !props.DateOrders.some(orderDate => {
-        const objectDate = new Date(orderDate);
-        const hours = objectDate.getHours().toString().padStart(2, '0');
-        const minutes = objectDate.getMinutes().toString().padStart(2, '0');
-
-        const year = objectDate.getFullYear().toString();
-        const monthCrude = objectDate.getMonth()+1;
-        const month = monthCrude.toString().padStart(2, '0');
-        const day = objectDate.getDate().toString().padStart(2, '0');
-
-        if (`${year}-${month}-${day}` === date.value){
-          return `${hours}:${minutes}` === formattedTime;
-        }
-      });
+    const resetTime = () => {
+      time.value = null;
     }
 
-    const getfullDateTime = (datetime) => {
-      time.value = datetime.padStart(5,'0');
+    const filteredHours = computed(() => {
+      return companyHours.filter(hour => {
+
+          const isOccupied = props.DateOrders.some(element => {
+              const orderDate = new Date(element);
+
+              const hours = orderDate.getHours().toString().padStart(2, '0');
+              const minutes = orderDate.getMinutes().toString().padStart(2, '0');
+              const fullHour = `${hours}:${minutes}`;
+
+              const year = orderDate.getFullYear().toString();
+              const month = String(orderDate.getMonth()+1).padStart(2, '0');
+              const day = orderDate.getDate().toString().padStart(2, '0');
+
+              const fullDate = `${year}-${month}-${day}`;
+
+              return fullDate === date.value && fullHour === hour;
+            });
+
+          return !isOccupied;
+      });
+    });
+
+    const getFullDateTime = () => {
       emit('get-fulldatetime', date.value, time.value);
     }
 
     watch(() => props.Date,
       (newVal)=>{
         date.value = newVal
+        console.log(date.value);
       },
       {
         immediate:true
@@ -134,12 +148,11 @@ export default {
 
     return {
       verifyDate,
-      getfullDateTime,
-      isTimeAvaliable,
-      hours,
+      getFullDateTime,
+      resetTime,
+      filteredHours,
       date,
-      time,
-      showPopupDate
+      time
     }
   },
   emits: [

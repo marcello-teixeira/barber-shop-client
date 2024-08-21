@@ -7,6 +7,7 @@
         outlined
         filled
         @focus="isListCompanyVisible = true"
+        @update:model-value="resetOrder"
       >
         <template v-slot:prepend>
           <q-icon

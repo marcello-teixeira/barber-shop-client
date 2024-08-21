@@ -117,7 +117,6 @@ export default defineComponent({
   padding: 15px;
   text-align: center;
   width: 100%;
-  animation: shake .4s ease-out;
 }
 
 .info-login span {
@@ -126,22 +125,5 @@ export default defineComponent({
   font-weight: bold;
 }
 
-@keyframes shake {
-  0% {
-    transform: translateX(0%);
-  }
-  25% {
-    transform: translateX(5%);
-  }
-  50% {
-    transform: translateX(-5%);
-  }
-  75% {
-    transform: translateX(5%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
 
 </style>

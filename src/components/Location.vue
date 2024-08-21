@@ -59,6 +59,7 @@ export default {
         if(latArg && lonArg) {
           const resp = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latArg}+${lonArg}&key=${apiKey}`);
 
+
           clientLocation.value = {
             city: resp.data.results[0].components.city,
             country: resp.data.results[0].components.country,
@@ -73,7 +74,9 @@ export default {
     }
 
     const sendLocation = () => {
-        emit('send-location', clientLocation.value);
+        setTimeout(() => {
+          emit('send-location', clientLocation.value);
+        }, 500);
       }
 
     onMounted(() => {

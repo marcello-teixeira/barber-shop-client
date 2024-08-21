@@ -13,11 +13,16 @@
     no-data-label="We didn't find anything orders for you"
     row-key="id"
     >
-    <template v-slot:body-cell-haircutDone="props">
-      <q-td :props="props">
+    <template v-slot:body-cell-haircutDate="data">
+      <q-td :props="data">
+       {{editDatetime(data.row.haircutDate)}}
+      </q-td>
+    </template>
+    <template v-slot:body-cell-haircutDone="data">
+      <q-td :props="data">
         <q-icon
           class="table-icon"
-          v-if="props.row.haircutDone === false"
+          v-if="data.row.haircutDone === false"
           name="cancel"
           color="red"
         ></q-icon>
@@ -60,6 +65,19 @@ const columns = [
 export default {
   name: 'OrdersView',
   setup (props) {
+    const editDatetime = (datetime) => {
+      const editDate = new Date(datetime);
+
+      const hours = editDate.getHours().toString().padStart(2, '0');
+      const minutes = editDate.getMinutes().toString().padStart(2, '0');
+
+      const year = editDate.getFullYear().toString();
+      const month = String(editDate.getMonth()+1).padStart(2, '0');
+      const day = editDate.getDate().toString().padStart(2, '0');
+
+
+      return `${day}/${month}/${year} ${hours}:${minutes} `;
+    }
 
     const rows = ref(props.Rows)
 
@@ -72,7 +90,8 @@ export default {
 
     return {
       columns,
-      rows
+      rows,
+      editDatetime
     }
   },
   props: {
@@ -103,7 +122,7 @@ export default {
 .table-icon {
   font-size: 40px;
   position: relative;
-  left: 21%;
+  left: 30%;
   transform: translateX(-50%);
 }
 

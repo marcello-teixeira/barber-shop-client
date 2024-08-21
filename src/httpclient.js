@@ -5,8 +5,9 @@ const api = axios.create({
 });
 
 export async function getProfilePicture() {
-  const clientId = localStorage.getItem('id');
-  const response = await api.get(`customer/photo/${clientId}`, {responseType: 'arraybuffer'});
+  const clientRole = localStorage.getItem('role');
+
+  const response = await api.get(`${clientRole}/get-photo`, {responseType: 'arraybuffer'});
 
   if(response && response.data) {
     return new Promise((resolve, reject) => {

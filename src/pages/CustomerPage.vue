@@ -33,7 +33,7 @@ export default {
     const refreshTableOrders = () => {
       setTimeout(()=> {
         api.get('orders').then(resp => rows.value = resp.data);
-      }, 1500);
+      }, 300);
     }
 
     onMounted(() => {
@@ -50,7 +50,6 @@ export default {
     OrdersView
   },
   created() {
-    const client_id = localStorage.getItem('id');
     const client_role = localStorage.getItem('role');
 
     if(client_role != 'customer') {

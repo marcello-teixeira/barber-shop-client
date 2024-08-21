@@ -20,7 +20,7 @@ export default {
   background-size: cover;
   width: 150px;
   height: 150px;
-  animation: spin 1.3s ease infinite;
+  animation: spin 1.3s linear infinite;
 }
 
 @keyframes spin {

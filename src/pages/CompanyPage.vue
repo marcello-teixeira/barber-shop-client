@@ -61,15 +61,15 @@
         </h6>
         <div id="open-order" class="open-orders q-gutter-md bg-grey">
           <q-card v-for="col in rowsFiltered" :key="col.id" class="bg-white card-main">
-            <q-card-selection class="row">
+            <q-card-section class="row">
               <div class="col q-pa-sm" style="font-size: 30px;">
                 {{ `N° ${col.id}` }}
               </div>
               <div class="col-3 column items-center border-left q-pt-sm date-bg" style="font-size: 38px;">
                 {{ new Date(col.haircutDate).getDate() }}
               </div>
-            </q-card-selection>
-            <q-card-selection class="row">
+            </q-card-section>
+            <q-card-section class="row">
               <div class="col q-pa-sm" style="font-size: 20px;">
                 {{ col.customerName }}
               </div>
@@ -77,8 +77,8 @@
               style="font-size: 18px;">
                 {{ new Date(col.haircutDate).getMonth()+1 + "/" + new Date(col.haircutDate).getFullYear()}}
               </div>
-            </q-card-selection>
-            <q-card-selection class="row">
+            </q-card-section>
+            <q-card-section class="row">
               <div class="col q-pa-sm q-btn-card">
                 <div class="row">
                   <q-btn
@@ -101,7 +101,7 @@
               <div class="col-3 column items-center border-left date-bg" style="font-size: 35px;">
                 {{ getDayWeek(new Date(col.haircutDate).getDay()) }}
               </div>
-            </q-card-selection>
+            </q-card-section>
           </q-card>
         </div>
       </div>

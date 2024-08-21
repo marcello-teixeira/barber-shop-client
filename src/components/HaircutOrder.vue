@@ -10,19 +10,22 @@
           option-value="id"
           v-model="selecthaircut"
           :rules="[val => val.name !== undefined ]"
+          @update:model-value="getHaircuts()"
         >
-          <template v-slot:option="scope">
-            <q-item clickable @click="getHaircuts(scope.opt)">
-              <q-item-section  >
-                <q-item-label >
-                  {{ scope.opt.name }}
-                </q-item-label>
-                <q-item-section caption >
-                  {{ "$"+scope.opt.cost}}
+          <q-popup-proxy>
+            <template v-slot:option="scope">
+              <q-item clickable >
+                <q-item-section  >
+                  <q-item-label >
+                    {{ scope.opt.name }}
+                  </q-item-label>
+                  <q-item-section caption >
+                    {{ "$"+scope.opt.cost}}
+                  </q-item-section>
                 </q-item-section>
-              </q-item-section>
-            </q-item>
-          </template>
+              </q-item>
+            </template>
+          </q-popup-proxy>
         </q-select>
 
         <q-item  class="select-haircut">
@@ -37,17 +40,25 @@
 </template>
 
 <script>
-import {ref} from 'vue';
+import {ref, watch} from 'vue';
 
 export default {
   name: 'HaircutOrder',
-  setup (_,{emit}) {
+  setup (props,{emit}) {
     const selecthaircut = ref('');
 
-    const getHaircuts = (haircut) => {
-      selecthaircut.value = haircut;
-      emit('get-haircuts-company', haircut);
+    const getHaircuts = () => {
+      emit('get-haircuts-company', selecthaircut.value);
     }
+
+    watch(() => props.ChooseHaircut,
+          (newVal) => {
+            selecthaircut.value = newVal;
+          },
+          {
+            immediate: true
+          }
+      );
 
     return {
       selecthaircut,
@@ -58,6 +69,10 @@ export default {
     Haircuts: {
       type: Array,
       required: true
+    },
+    ChooseHaircut: {
+      Type: Object,
+      require: true
     }
   },
   emits: [

@@ -220,6 +220,7 @@ export default {
    },
   methods: {
     onSendLocation(data) {
+
       for (const key in data) {
         if(data[key] === undefined) {
           data[key] = '';
@@ -227,6 +228,7 @@ export default {
       }
 
       this.Inputs.Location.model = `${data.road}, ${data.postcode} ${data.city}, ${data.country}`;
+
     },
 
     ToggleViewPassword() {

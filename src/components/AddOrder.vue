@@ -25,7 +25,8 @@
           <HaircutOrder
           v-show="companySelected.name"
           @get-haircuts-company="setHaircutsCompany"
-          :Haircuts="haircuts" />
+          :Haircuts="haircuts"
+          :ChooseHaircut="selectHaircut"/>
         </div>
       </div>
       <div class="row justify-center q-mt-md q-gutter-sm">
@@ -38,7 +39,6 @@
             />
             <q-btn
               class="col-md-4 q-ml-xl"
-              type="submit"
               icon="content_cut"
               @click="submitNewOrder"
               color="green"
@@ -54,13 +54,14 @@ import OrderToCompany from './OrderToCompany.vue';
 import DateOrder from './DateOrder.vue'
 import HaircutOrder from './HaircutOrder.vue'
 import {ref} from 'vue';
+import { Notify } from 'quasar';
 
 
 
 export default {
   name: 'NewHaircut',
   setup (_, {emit}) {
-    const selecthaircut = ref({})
+    const selectHaircut = ref('')
     const companySelected = ref({});
     const dateOrders = ref([]);
     const fullDate = ref('');
@@ -69,7 +70,7 @@ export default {
     const time = ref('');
 
     const setHaircutsCompany = (haircut) => {
-      selecthaircut.value = haircut;
+      selectHaircut.value = haircut;
     }
 
     const setFullDatetime = (dateArg, timeArg) => {
@@ -100,8 +101,8 @@ export default {
 
     const resetOrder = () => {
       companySelected.value = {};
-      selecthaircut.value = '';
-      fullDate.value = null;
+      selectHaircut.value = '';
+      fullDate.value = '';
       time.value = '';
       date.value = '';
     }
@@ -110,17 +111,24 @@ export default {
       e.preventDefault();
       emit('refresh-table-orders');
 
+      if(selectHaircut.value === '' || companySelected.value === '' || fullDate.value === '') {
+        Notify.create({
+          message: 'Fill in the fields correctly',
+          color: 'negative'
+        });
+        return;
+      }
+
       api.post('orders/new', {
         companyID: companySelected.value.id,
         companyName: companySelected.value.name,
         companyPhone: companySelected.value.phone,
         companyLocation: companySelected.value.location,
-        haircutID: selecthaircut.value.id,
-        haircutName: selecthaircut.value.name,
-        haircutCost: selecthaircut.value.cost,
+        haircutID: selectHaircut.value.id,
+        haircutName: selectHaircut.value.name,
+        haircutCost: selectHaircut.value.cost,
         haircutDate: fullDate.value,
       });
-
     }
 
     return {
@@ -131,19 +139,16 @@ export default {
       resetOrder,
       dateOrders,
       haircuts,
-      selecthaircut,
+      selectHaircut,
       companySelected,
       date,
       time
-
     }
   },
   components: {
     OrderToCompany,
     DateOrder,
     HaircutOrder,
-
-
   },
   emits: [
     'refresh-table-orders'

@@ -17,7 +17,7 @@
           circle
           class="avatar cursor-pointer"
         >
-          <img :src="urlProfilePicture" alt="Profile Picture">
+          <img :src="urlProfilePicture">
           <q-popup-proxy>
             setting
           </q-popup-proxy>
@@ -68,6 +68,19 @@
             <q-item-label class="label-left-items">
               Calendar
             </q-item-label>
+            <q-popup-proxy
+              cover
+            >
+              <q-date
+                v-model="date"
+              >
+                <q-btn
+                  v-close-popup
+                  label="Close"
+                  color="primary"
+                />
+              </q-date>
+            </q-popup-proxy>
           </q-item-section>
         </q-item>
         <q-separator/>
@@ -120,13 +133,13 @@ export default {
 
     onMounted(() => {
       getImageProfile();
-      getInfoCustomer();
     })
 
     return {
       isLeftDrawerVisible: ref(false),
       year: new Date().getFullYear(),
-      urlProfilePicture
+      urlProfilePicture,
+      date: ref('')
     }
   },
   components: {
