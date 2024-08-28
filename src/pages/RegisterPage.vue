@@ -3,12 +3,12 @@
     <transition name="fade">
       <q-page class="row justify-center" v-show="showRegister">
         <transition name="slide-left">
-          <div class="col-md-5 column justify-center slide-back-right" v-if="showRegister">
+          <div class="col-md-6 column justify-center slide-back-right" v-if="showRegister">
             <Register @slide-form="onSlideFormRegister"/>
           </div>
         </transition>
         <transition name="slide-right">
-          <div v-if="showRegister" class="col-md-7 bg-register slide-back-left "></div>
+          <div v-if="showRegister" class="col-md-6 bg-register slide-back-left "></div>
         </transition>
       </q-page>
     </transition>
@@ -29,6 +29,7 @@ export default {
       const showRegister = ref(true);
       const showLoading = ref(null);
 
+      // Fade out and slide components to load login page
       const onSlideFormRegister = () => {
         showRegister.value = false;
         showLoading.value = true;

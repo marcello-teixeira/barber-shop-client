@@ -29,7 +29,7 @@
         </q-input>
 
         <div class="row">
-          <div class="col-sm-6 text-left">
+          <div class="col-6 text-left">
             <q-btn
               class=""
               label="Sign up"
@@ -38,7 +38,7 @@
             />
           </div>
 
-          <div class="col-sm-6 text-right">
+          <div class="col-6 text-right">
             <q-btn
              push
              label="Sign In"
@@ -67,11 +67,13 @@ export default defineComponent({
     const PasswordClient = ref('');
     const successfulLogin = ref(true);
 
+    // Send a emit to the Login Page
     const slideForm = () => {
       emit('slide-form');
     }
 
-    const submitFormLogin = async() => {
+    const submitFormLogin = async(e) => {
+      e.preventDefault();
       try {
         successfulLogin.value = await ClientLogin(MailClient.value, PasswordClient.value);
         await enterPage();
@@ -80,6 +82,7 @@ export default defineComponent({
       }
     }
 
+    // Check if login is successful
     const enterPage = () => {
       return new Promise((resolve, reject) => {
         const role = localStorage.getItem('role');
@@ -94,7 +97,6 @@ export default defineComponent({
       })
     }
 
-
     return {
       PasswordClient,
       MailClient,
@@ -106,7 +108,6 @@ export default defineComponent({
   created() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
-    localStorage.removeItem('id');
   }
 })
 </script>

@@ -1,14 +1,14 @@
 <template>
   <q-page-container>
     <q-page padding class="row q-gutter-lg justify-center">
-      <div class="col-3 column justify-center">
+      <div class="col-3 column justify-center order">
         <AddOrder
         @refresh-table-orders="refreshTableOrders"
         />
       </div>
 
       <OrdersView
-      class="col-md-8"
+      class="col-8 order"
       :Rows="rows"
       />
     </q-page>
@@ -18,7 +18,7 @@
 <script>
 import { onMounted, ref } from 'vue';
 import AddOrder from '../components/AddOrder.vue'
-import OrdersView from '../components/OrdersView.vue'
+import OrdersView from '../components/OrdersViewCustomer.vue'
 import api from 'src/httpclient';
 
 
@@ -31,6 +31,7 @@ export default {
       api.get('orders').then(resp => rows.value = resp.data);
     }
 
+    // Load again all orders to update table
     const refreshTableOrders = () => {
       setTimeout(()=> {
         api.get('orders').then(resp => rows.value = resp.data);
@@ -60,6 +61,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+@media (orientation: portrait) and (max-width: 640px) {
+  .order {
+    width: 90%;
+  }
+}
 
 </style>

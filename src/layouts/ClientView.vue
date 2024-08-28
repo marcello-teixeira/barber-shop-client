@@ -15,28 +15,28 @@
         />
       </div>
       <div class="col-4 items-end column">
-        <q-avatar
-          circle
-          class="avatar cursor-pointer"
-        >
-          <img :src="urlProfilePicture">
-          <q-popup-proxy class="popup-profile">
+        <div class="container" @click="showPopup = !showPopup">
+          <q-avatar
+            circle
+            class="avatar cursor-pointer"
+          >
+            <img :src="urlProfilePicture">
+          </q-avatar>
+          <div class="popup-profile column justify-center" v-show="showPopup">
             <q-btn
-              class="block q-pa-md"
-              label="Settings"
+              class="q-pa-md rounded-border"
               icon="settings"
               flat
-              @click="inPath('/view/settings')"
+              @click="settings('/view/settings')"
             />
             <q-btn
-              class="q-pa-md q-pr-lg"
-              label="Logoff"
+              class="q-pa-md rounded-border"
               icon="logout"
               flat
-              @click="inPath('/')"
+              @click="Logoff('/')"
             />
-          </q-popup-proxy>
-        </q-avatar>
+          </div>
+        </div>
       </div>
     </q-header>
 
@@ -136,11 +136,11 @@ export default {
   setup () {
     const pathRole = ref('');
     const urlProfilePicture = ref('');
-    const infoCustomer = ref([]);
     const isLeftDrawerVisible = ref(false);
     const date = ref('');
+    const showPopup = ref(false);
 
-    const inPath = (path) => {
+    const settings = (path) => {
       window.location.hash = path;
     }
 
@@ -148,9 +148,10 @@ export default {
       urlProfilePicture.value = await getProfilePicture();
     }
 
-    const getInfoCustomer = () => {
-      const clientId = localStorage.getItem('id');
-      api.get(`customer/${clientId}`).then(resp => infoCustomer.value = resp.data);
+    const Logoff = (path) => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      window.location.hash = path;
     }
 
     onMounted(() => {
@@ -164,16 +165,32 @@ export default {
       urlProfilePicture,
       date,
       pathRole,
-      inPath
+      showPopup,
+      Logoff,
+      settings
     }
   },
   components: {
     IconBarb
+  },
+  created() {
+    const client_role = localStorage.getItem('role');
+
+    if(client_role == 'customer' || client_role == 'company') {
+      return;
+    }
+
+    window.location.hash = '/:catchFailLogin(.*)*'
   }
 }
 </script>
 
 <style>
+
+.container {
+  position: relative;
+}
+
 .avatar {
   margin: 10px;
 }
@@ -192,7 +209,17 @@ export default {
 }
 
 .popup-profile {
-  width: 7.3dvw;
+  position: absolute;
+  top: 3.7rem;
+  left: -.5rem;
+  width: 100%;
+  background-color: #9E9E9E;
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.rounded-border {
+  border-radius: 10px;
 }
 
 

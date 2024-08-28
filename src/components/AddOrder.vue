@@ -56,7 +56,7 @@ import { Notify } from 'quasar';
 
 
 export default {
-  name: 'NewHaircut',
+  name: 'AddOrder',
   setup (_, {emit}) {
     const selectHaircut = ref('')
     const companySelected = ref({});
@@ -84,11 +84,10 @@ export default {
     const getDateOrders = async (companyId) => {
       const response = await api.get(`orders/date/${companyId}`);
 
-      response.data.forEach(el => {
-        dateOrders.value.push(el.haircutDate);
-      });
+      dateOrders.value = response.data;
     }
 
+    // Select any company to get all the haircuts and orders them
     const selectCompany = (company) => {
       companySelected.value = company;
 
@@ -126,6 +125,12 @@ export default {
         haircutCost: selectHaircut.value.cost,
         haircutDate: fullDate.value,
       }).then(_ => resetOrder());
+
+      Notify.create({
+          message: 'Order sent',
+          color: 'positive'
+        });
+        return;
 
     }
 

@@ -6,7 +6,7 @@
       @submit="SubmitRegisterForm"
       >
         <div >
-          <h5 style="margin: 0px 0px 15px 0px;">
+          <h5 class="title-form">
             Enter your information
           </h5>
           <q-toggle
@@ -20,7 +20,7 @@
         </div>
 
         <q-input
-          v-for="(input, index) in FilterInputs"
+          v-for="(input, index) in visibleInput"
           dense
           :key="index"
           :type="input.type"
@@ -36,7 +36,6 @@
           class="q-my-md"
         >
           <template v-slot:append>
-
             <q-icon
                v-if="input.label == 'Password'"
               :name="input.icon"
@@ -54,7 +53,7 @@
                 cover
                 transition-show="scale"
                 transition-hide="scale"
-                class="bg-grey-4"
+                class="location bg-grey-4"
               >
                 <Location @send-location="onSendLocation" />
               </q-popup-proxy>
@@ -65,7 +64,7 @@
         <q-file
           outlined
           color="green-10"
-          v-model="Inputs.ProfilePicture.model"
+          v-model="dataInputs.profilePicture.model"
           label="Profile picture"
           dense
         >
@@ -78,24 +77,24 @@
             <q-icon
               name="close"
               class="cursor-pointer"
-              @click="this.Inputs.ProfilePicture.model = null"
+              @click="dataInputs.profilePicture.model = null"
             />
           </template>
         </q-file>
-          <q-toggle
-            label="I agree terms and conditions"
-            v-model="termAgree"
-            color="light-green"
-          />
+        <q-toggle
+          label="I agree terms and conditions"
+          v-model="termsAgrees"
+          color="light-green"
+        />
         <div class="row items-center q-my-md">
-          <div class="col-sm-6 text-left">
+          <div class="col-6 text-left">
             <q-btn
               outline
               label="Already has account?"
               @click="slideForm"
             />
           </div>
-          <div class="col-sm-6 text-right">
+          <div class="col-6 text-right">
             <q-btn
               label="Register"
               push
@@ -105,121 +104,36 @@
             />
           </div>
         </div>
-        <p class="q-my-xl" style=" margin: 0px;">
-          <a href="#" style="color: blue;">Terms and conditions</a>
-        </p>
+        <div class="terms-accept q-my-xl" >
+          <a href="/#/support">Terms and conditions</a>
+        </div>
       </q-form>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { Notify } from 'quasar';
 import { ClientRegister } from '../httpclient';
+import api from '../httpclient';
 import Location from './Location.vue'
+import components from 'src/dataregister';
 
 export default {
   name: "ClientRegister",
   setup(_,{emit}) {
     const ViewPassword = ref(true);
     const OnCompany = ref(false);
-    const termAgree = ref(false);
+    const termsAgrees = ref(false);
+    const dataInputs = ref(components);
 
     const slideForm = () => {
       emit('slide-form');
     }
 
-    return {
-      termAgree,
-      ViewPassword,
-      OnCompany,
-      slideForm
-    }
-  },
-  data() {
-    return {
-      Inputs: {
-        Name: {
-          label: "Name",
-          type: "text",
-          rule: (val) => val.length > 0 || "Enter your name",
-          model: "",
-          visible: true
-        },
-        Email: {
-          label: "Email",
-          type: "email",
-          rule: (val) => /\S+@\S+\.\S/.test(val) || "Email incorrect",
-          model: "",
-          visible: true
-        },
-        CPF: {
-          label: "CPF",
-          type: "text",
-          rule: (val) => val.length >= 11 || "Enter your CPF",
-          mask: "###.###.###-##",
-          model: "",
-          visible: !this.OnCompany
-        },
-        CNPJ: {
-          label: "CNPJ",
-          type: "text",
-          rule: (val) => val.length >= 14 || "Enter your CNPJ",
-          mask: "##.###.###/####-##",
-          model: "",
-          visible: this.OnCompany
-        },
-        Password: {
-          label: "Password",
-          type: 'password',
-          rule: (val) =>
-            val.length > 8 || "Password incorrect",
-          model: "",
-          icon: 'visibility_off',
-          hint: 'Password must be longer than 8 characters',
-          visible: true
-        },
-        PasswordTwoFactor: {
-          label: "Confirm password",
-          type: "password",
-          rule: (val) =>
-            val === this.Inputs.Password.model || "Password is not the same",
-          model: "",
-          visible: true
-        },
-        Phone: {
-          label: "Phone",
-          type: "tel",
-          rule: (val) => val.length >= 11 || "Enter your phone",
-          mask: "(##)#####-####",
-          model: "",
-          visible: true
-        },
-        Location: {
-          label: "Location",
-          type: "text",
-          rule: (val) => val.length > 0 || "Enter your location",
-          model: "",
-          hint: 'Mask: road number, postcode city, country',
-          visible: this.OnCompany
-        },
-        ProfilePicture: {
-          model: null
-        }
-      },
-    };
-  },
-  components: {
-    Location
-  },
-  computed: {
-    FilterInputs() {
-      return Object.values(this.Inputs).filter(input => input.visible);
-    }
-   },
-  methods: {
-    onSendLocation(data) {
+    // Check undefined places in company location
+    const onSendLocation = (data) => {
 
       for (const key in data) {
         if(data[key] === undefined) {
@@ -227,34 +141,46 @@ export default {
         }
       }
 
-      this.Inputs.Location.model = `${data.road}, ${data.postcode} ${data.city}, ${data.country}`;
+      dataInputs.value.location.model = `${data.road}, ${data.postcode} ${data.city}, ${data.country}`;
 
-    },
+    };
 
-    ToggleViewPassword() {
-      this.ViewPassword = !this.ViewPassword
-      this.Inputs.Password.type = this.ViewPassword ? 'password' : 'text';
-      this.Inputs.Password.icon = this.ViewPassword ? 'visibility_off' : 'visibility';
-    },
+    const ToggleViewPassword = () => {
+      ViewPassword.value = !ViewPassword.value
+      dataInputs.value.password.type = ViewPassword.value ? 'password' : 'text';
+      dataInputs.value.password.icon = ViewPassword.value ? 'visibility_off' : 'visibility';
+    };
 
-    SubmitRegisterForm() {
+    const verifyDocumentCPF = async() => {
+      const response = await api.post('customer/verify-doc', {document: dataInputs.value.cpf.model});
+
+      return response.data;
+    }
+
+    const verifyDocumentCNPJ = async() => {
+      const response = await api.post('company/verify-doc', {document: dataInputs.value.cnpj.model});
+
+      return response.data;
+    }
+
+    const SubmitRegisterForm = () => {
       const formData = new FormData();
       let route;
 
-      formData.append('Name', this.Inputs.Name.model);
-      formData.append('Email', this.Inputs.Email.model);
-      formData.append('Password', this.Inputs.Password.model);
-      formData.append('Phone', this.Inputs.Phone.model);
-      formData.append('Photo', this.Inputs.ProfilePicture.model);
+      formData.append('Name', dataInputs.value.name.model);
+      formData.append('Email', dataInputs.value.email.model);
+      formData.append('Password', dataInputs.value.password.model);
+      formData.append('Phone', dataInputs.value.phone.model);
+      formData.append('Photo', dataInputs.value.profilePicture.model);
 
-      if (!this.OnCompany) {
-        formData.append('CPF', this.Inputs.CPF.model);
+      if (!OnCompany.value) {
+        formData.append('CPF', dataInputs.value.cpf.model);
 
         route = 'customer';
 
       } else {
-        formData.append('CNPJ', this.Inputs.CNPJ.model);
-        formData.append('Location', this.Inputs.Location.model);
+        formData.append('CNPJ', dataInputs.value.cnpj.model);
+        formData.append('Location', dataInputs.value.location.model);
         formData.append('Login', 'admin');
 
         route = 'company';
@@ -267,19 +193,61 @@ export default {
         color: 'positive',
         position: 'top'
       })
-    },
-    IsCompany() {
-      this.Inputs.CNPJ.visible = this.OnCompany;
-      this.Inputs.Location.visible = this.OnCompany;
-      this.Inputs.CPF.visible = !this.OnCompany;
+
+      window.location.hash = 'login';
+    };
+
+    const IsCompany = () => {
+      dataInputs.value.cnpj.visible = OnCompany.value;
+      dataInputs.value.location.visible = OnCompany.value;
+      dataInputs.value.cpf.visible = !OnCompany.value;
     }
 
-  },
+    // Filter visible properties for company or customer
+    const visibleInput = computed(() => {
+      return Object.values(dataInputs.value).filter(input => input.visible);
+    })
 
+    onMounted(() => {
+      dataInputs.value.passwordTwofactor.rule = (val) =>
+      val === dataInputs.value.password.model || "Password is not the same";
+
+      dataInputs.value.cpf.rule = (_) => verifyDocumentCPF();
+      dataInputs.value.cnpj.rule = (_) => verifyDocumentCNPJ();
+    });_
+
+    return {
+      visibleInput,
+      IsCompany,
+      SubmitRegisterForm,
+      onSendLocation,
+      ToggleViewPassword,
+      slideForm,
+      termsAgrees,
+      ViewPassword,
+      OnCompany,
+      dataInputs
+    }
+  },
+  components: {
+    Location
+  }
 };
 </script>
 
 <style scoped>
+
+.terms-accept {
+  margin: 0px;
+}
+
+.terms-accept  a {
+  color: blue;
+}
+
+.title-form {
+  margin: 0px 0px 15px 0px;
+}
 
 .btn-register {
   background-color: rgb(138, 132, 132);

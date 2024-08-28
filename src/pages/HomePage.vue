@@ -1,6 +1,6 @@
 <template>
-  <q-page-container>
-    <q-page class="row">
+  <q-page-container >
+    <q-page class="row" v-show="show">
       <div class="col-12">
         <div class="title-page" v-show="titlePageShow">
           <h1>BARBSHOP</h1>
@@ -26,19 +26,15 @@
         </q-carousel>
       </div>
 
-      <div class="col-12" style="margin-bottom: 5%;">
-        <h2 class="column items-center">
+      <div class="col-12" >
+        <h2 class="items-center column title-plan">
           Only For Companies
         </h2>
-        <div class="container-center">
-          <q-list class="row" style="position: relative;">
-            <div>
-            </div>
-            <div class="plan-features">
-              <p class="feature-item">Company Account</p>
-              <p class="feature-item">Preference Support</p>
-              <p class="feature-item">Larger Disk Space</p>
-            </div>
+      </div>
+
+      <div class="col-12 plan-container">
+        <div>
+          <q-list class="flex flex-center list-plan">
             <q-item
             :style="{outline: `3px solid ${plan.features.bg_color}`}"
               v-for="(plan, index) in plans"
@@ -58,38 +54,41 @@
                 </q-item-label>
               </q-item-section>
               <q-item-section
-              v-for="(feature, key) in plan.features"
-              :key="key"
-
+                v-for="(feature, key) in plan.features"
+                :key="key"
               >
-              <q-item-label v-if="key !== 'bg_color'" class="plan-feature">
-                <q-icon
-                :name="feature ? 'check_circle' : 'cancel'"
-                :color="feature ? 'green' : 'red'"
-                size="lg"
-                />
-                <q-separator style="background-color:#000 ;"/>
-                </q-item-label>
+                <q-item-label v-if="key !== 'bg_color'" class="plan-feature">
+                    <div>
+                        {{ feature.type }}
+                        <q-icon
+                        :name="feature.access ? 'check_circle' : 'cancel'"
+                        :color="feature.access ? 'green' : 'red'"
+                        size="lg"
+                        />
+                    </div>
+                    <q-separator style="background-color:#000 ;"/>
+                  </q-item-label>
               </q-item-section>
               <q-item-section class="row items-center">
                 <q-btn
                   label="BUY NOW"
                   color="green"
                   size="lg"
-                  style="width: 130px;"
+                  class="btn-plan"
                 />
               </q-item-section>
             </q-item>
           </q-list>
         </div>
       </div>
-      <div class="col-12" style="box-shadow: 0px -5px 5px #00000068;">
+
+      <div class="col-12 banner-text" >
         <div class="row">
           <q-img
-          class="col-6"
+          class="col banner-img"
           src="/img/banner-home.jpg"
           alt="Banner Barber Info"/>
-          <div class="col-6 text-banner-home">
+          <div class="col text-banner-home">
               <h2>
                 About us
               </h2>
@@ -99,7 +98,7 @@
               <p>
                 You a customer? Can now get find new barbers close you. Don't waste time, create an account <a href="#/login">now</a>.
               </p>
-              <a href="#/login"><iconBarb /></a>
+              <a href="#/login"><iconBarb :Path="'/view/login'" /></a>
           </div>
         </div>
       </div>
@@ -112,14 +111,24 @@
 import { onMounted, ref } from 'vue'
 import IconBarb from 'src/components/IconBarb.vue'
 
+
 const plans = [
   {
     name: 'START',
     price: '15,99',
     features: {
-      companyAccount: true,
-      preferenceSupport: false,
-      largeDiskSpace: false,
+      companyAccount: {
+        access: true,
+        type: 'Company Account'
+      },
+      preferenceSupport: {
+        access: false,
+        type: 'Preference Support'
+      },
+      largeStorage: {
+        access: false,
+        type: 'Large Storage'
+      },
       bg_color: '#65267e',
     },
   },
@@ -127,9 +136,18 @@ const plans = [
     name: 'MEDIUM',
     price: '17,99',
     features: {
-      companyAccount: true,
-      preferenceSupport: true,
-      largeDiskSpace: false,
+      companyAccount: {
+        access: true,
+        type: 'Company Account'
+      },
+      preferenceSupport:{
+      access:   true,
+      type: 'Preference Support'
+      },
+      largeStorage: {
+        access: false,
+        type: 'Large Storage'
+      },
       bg_color: 'grey',
     },
   },
@@ -137,9 +155,18 @@ const plans = [
     name: 'PRO',
     price: '18,99',
     features: {
-      companyAccount: true,
-      preferenceSupport: true,
-      largeDiskSpace: true,
+      companyAccount: {
+        access: true,
+        type: 'Company Account'
+      },
+      preferenceSupport:{
+      access:   true,
+      type: 'Preference Support'
+      },
+      largeStorage: {
+        access: true,
+        type: 'Large Storage'
+      },
       bg_color: 'orange',
     },
   },
@@ -149,24 +176,44 @@ export default {
   components: { IconBarb },
   name: 'HomePage',
   setup() {
-    const slide = ref(1)
+    const slide = ref(3)
     const titlePageShow = ref(false)
+    const show = ref(false);
+
+    // Load CSS (mediaHome) in folder styles
+    const loadCss = () => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'src/styles/mediaHome.css'
+      document.head.appendChild(link);
+    }
+
+    const loopCarousel = async () => {
+      slide.value++;
+      if(slide.value > 4) {
+          slide.value = 1;
+        }
+    }
 
     onMounted(() => {
+      loadCss();
       titlePageShow.value = true
+      show.value = true;
+      setInterval(loopCarousel, 5000);
     })
+
     return {
       slide,
       titlePageShow,
       plans,
+      show
     }
-  },
+  }
+
 }
 </script>
 
 <style scoped>
-
-
 
 .text-banner-home {
   background: #2f3030;
@@ -175,8 +222,7 @@ export default {
 }
 
 .text-banner-home p{
-  width: 500px;
-  font-size: 30px;
+  font-size: 2rem;
   padding: 2%;
   color: #ffffff8a;
   margin: auto;
@@ -191,12 +237,6 @@ export default {
   color: #10a596;
 }
 
-.container-center {
-  position: relative;
-  left: 50%;
-  transform: translateX(-30%);
-}
-
 .carousel {
   height: 94vh;
   position: relative;
@@ -206,8 +246,8 @@ export default {
 .plan-features {
   position: relative;
   align-self: flex-end;
-  top: -108px;
-  left: 2%;
+  top: 36%;
+  left: 23%;
 }
 
 .feature-item {
@@ -224,10 +264,8 @@ export default {
 .container-prices {
   display: block;
   border-radius: 15px;
-  width: 200px;
-  height: 52dvh;
   margin: 15px;
-  flex-basis: 200px;
+  width: auto;
   transition: 0.5s;
   font-size: 25px;
   background-color: #fff;
@@ -236,13 +274,16 @@ export default {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-.container-prices:hover {
-  flex-shrink: 2;
-  flex-basis: 220px;
+
+
+.plan-container {
+  position: relative;
+  margin-bottom: 5%;
 }
 
 .plan-name,
 .plan-price {
+  font-size: 2.5rem;
   position: relative;
   text-align: center;
   padding: 15% 0;
@@ -254,13 +295,12 @@ export default {
 }
 
 .plan-price {
-  font-size: 45px;
+  font-size: 3.5rem;
 }
 
 .price-caption {
   position: absolute;
-  top: 30%;
-  left: 70%;
+  top: 35%;
 }
 
 .plan-feature {
@@ -269,14 +309,18 @@ export default {
   margin: 0 15px;
 }
 
+.btn-plan {
+  width: 130px;
+  margin-bottom: 5%;
+}
+
 .title-page {
   position: absolute;
   color: #fff;
   z-index: 1;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  top: 5%;
-  left: 13%;
   background: #000000b9;
+  left: 6%;
   padding: 15px;
   overflow: hidden;
 }
@@ -291,7 +335,6 @@ export default {
 .title-page h1::before {
   content: '';
   position: absolute;
-  width: 465px;
   height: 6px;
   background-color: transparent;
   top: 90%;
@@ -319,7 +362,6 @@ export default {
 #first-phase {
   color: transparent;
   animation: fadeIn 0.5s 1.3s forwards;
-  width: 450px;
   text-decoration: underline;
   text-decoration-color: transparent;
   transition: all .3s ease;
@@ -356,12 +398,16 @@ export default {
 }
 
 .title-page:hover #first-phase, .title-page:hover #second-phase {
-  text-decoration-color: red;
+  text-decoration-color: rgb(206, 102, 17);
+}
+
+.banner-text {
+  box-shadow: 0px -5px 5px #00000068;
 }
 
 @keyframes fadeDecoration {
   to {
-    background-color: red;
+    background-color: rgb(206, 102, 17);
   }
 }
 
@@ -381,4 +427,5 @@ export default {
     color: #fff;
   }
 }
+
 </style>

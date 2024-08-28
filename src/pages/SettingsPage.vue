@@ -1,7 +1,7 @@
 <template>
   <q-page-container>
-    <q-page padding class="align-center">
-      <div class="row">
+    <q-page padding>
+      <div class="align">
         <div
           class="col-2 image-container"
           @click="isVisibleEdit = !isVisibleEdit"
@@ -9,7 +9,6 @@
           <img class="image-profile" :src="photoURL" alt="Profile Photo">
         </div>
         <div class="col-3 q-ml-xl">
-
           <div v-for="(info, key) in infoClient" :key="key" v-show="key !== 'id' && key !== 'photo' && key != 'avaliableAgenda'">
              <p class="title-info">
               {{ `${key}`.toUpperCase() }}
@@ -23,7 +22,7 @@
               outlined
               label="Photo"
               v-model="profilePicture"
-              class="q-pa-sm"
+              class="q-pa-sm change-photo"
               @update:model-value="changePhoto"
             >
               <template v-slot:prepend>
@@ -35,7 +34,7 @@
                 <q-icon
                   name="clear"
                   class="cursor-pointer"
-                  @click="isDeletePhoto"
+                  @click="isErasePhoto"
                 />
               </template>
             </q-file>
@@ -73,10 +72,12 @@ export default {
     const infoClient = ref({});
     const clientRole = ref('');
 
+    // Get URL profile image
     const getPhoto = async () => {
       photoURL.value = await getProfilePicture();
     }
 
+    // Confirm the profile photo choosen, and send it to API.
     const confirmEdit = () => {
       const photo = new FormData();
       photo.append('Photo', profilePicture.value);
@@ -92,6 +93,7 @@ export default {
         }).then(
           _ =>
         {
+
           getPhoto();
           location.reload();
         });
@@ -101,6 +103,7 @@ export default {
       }
     }
 
+    // Change the profile photo, but not send it to API.
     const changePhoto = () => {
       if (profilePicture.value != null) {
         photoURL.value = URL.createObjectURL(profilePicture.value);
@@ -108,7 +111,7 @@ export default {
       isFillEdit.value = true;
     }
 
-    const isDeletePhoto = () => {
+    const isErasePhoto = () => {
       profilePicture.value = null;
       isFillEdit.value = false;
     }
@@ -132,9 +135,9 @@ export default {
       components,
       confirmEdit,
       changePhoto,
-      isDeletePhoto
+      isErasePhoto
     }
-  }
+  },
 }
 </script>
 
@@ -176,10 +179,43 @@ export default {
   margin-bottom: 0;
 }
 
-.align-center {
-  position: relative;
-  left: 50%;
-  transform: translateX(-25%);
+.align{
+  display: flex;
+  place-content: center;
+}
+
+@media (orientation: portrait) and (max-width: 640px) {
+  .image-profile, .image-container{
+    width: 150px;
+    height: 150px;
+  }
+
+  .image-container::after {
+    width: 150px;
+    height: 30px;
+    font-size: 10px;
+  }
+
+  .title-info {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 0;
+    width: 270px;
+  }
+
+  .info {
+    font-size: 12px;
+  }
+
+  .align {
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .change-photo {
+    width: 70%;
+  }
+
 }
 
 </style>

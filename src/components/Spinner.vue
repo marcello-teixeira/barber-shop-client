@@ -1,6 +1,5 @@
 <template>
   <div class="spinner">
-
   </div>
 </template>
 
@@ -31,7 +30,5 @@ export default {
     transform: rotate(360deg);
   }
 }
-
-
 
 </style>

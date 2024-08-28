@@ -8,7 +8,7 @@
       </div>
       <div class="row ">
         <div class="col-6 column items-center ">
-          <h2>Chat with us</h2>
+          <h2 class="text">Chat with us</h2>
           <div>
             <q-btn
               label="START CHAT"
@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="col-6 column items-center">
-          <h2>Telephones</h2>
+          <h2 class="text">Telephones</h2>
           <ul>
             <li>9090-9090</li>
             <li>8080-8080</li>
@@ -40,6 +40,10 @@ export default {
 
 <style scoped>
 
-
+@media (max-width: 640px) {
+  .text {
+    font-size: 1.45rem;
+  }
+}
 
 </style>

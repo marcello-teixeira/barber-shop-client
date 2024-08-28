@@ -1,29 +1,32 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'https://localhost:7290/'
+  baseURL: 'https://localhost:7290/v1/'
 });
 
+//
+// Get the image of profile picture and return a image's URL
+//
 export async function getProfilePicture() {
   const clientRole = localStorage.getItem('role');
 
   const response = await api.get(`${clientRole}/get-photo`, {responseType: 'arraybuffer'});
 
-  if(response && response.data) {
-    return new Promise((resolve, reject) => {
-      if(response && response.data) {
-        const bytesPhoto = new Uint8Array(response.data);
-        const blob = new Blob([bytesPhoto], {type: 'image/jpg'});
-        const urlImage = URL.createObjectURL(blob);
-        resolve(urlImage);
-      } else {
-        reject('Error in loading profile image');
-      }
-    })
-
-  }
+  return new Promise((resolve, reject) => {
+    if(response && response.data) {
+      const bytesPhoto = new Uint8Array(response.data);
+      const blob = new Blob([bytesPhoto], {type: 'image/jpg'});
+      const urlImage = URL.createObjectURL(blob);
+      resolve(urlImage);
+    } else {
+      reject('Error in loading profile image');
+    }
+  })
 }
 
+//
+// Set Bearer-Token in header's authorization
+//
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -35,6 +38,9 @@ api.interceptors.request.use(
   }
 );
 
+//
+// Check login successful, if true set token and role in LocalStorage
+//
 export async function ClientLogin(mail, password) {
   try {
     const response = await api.post(
@@ -47,7 +53,6 @@ export async function ClientLogin(mail, password) {
 
     localStorage.setItem('token', response.data.token.tokenJwt);
     localStorage.setItem('role', response.data.role);
-    localStorage.setItem('id', response.data.id);
 
     return true;
   } catch (error) {
@@ -56,6 +61,9 @@ export async function ClientLogin(mail, password) {
   }
 }
 
+//
+// Send register data to API
+//
 export function ClientRegister(FormData, route) {
   try {
     api.post(

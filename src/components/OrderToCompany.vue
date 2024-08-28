@@ -60,11 +60,13 @@ export default {
       return completeCompany;
     });
 
+    // Update table the AddOrder after a change in data
     const resetOrder = () => {
       companySelected.value = props.CompanySelect.name;
       emit('reset-order');
     }
 
+    // Select a company and send it to component AddOrder
     const selectCompany = (company) => {
       emit('select-company', company);
       companySelected.value = company.name;

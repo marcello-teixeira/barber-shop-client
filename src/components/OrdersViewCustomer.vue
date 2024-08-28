@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import {ref, watch, computed} from 'vue';
+import {ref, watch} from 'vue';
 
 const columns = [
   {name: 'id',label: 'N°',field: 'id',sortable: true,align: 'left'},
@@ -58,7 +58,7 @@ const columns = [
 
 
 export default {
-  name: 'OrdersView',
+  name: 'OrdersViewCustomer',
   setup (props) {
     const editDatetime = (datetime) => {
       const editDate = new Date(datetime);

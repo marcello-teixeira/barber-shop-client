@@ -1,7 +1,7 @@
 const routes = [
   {
     path: '/view',
-    component: () => import('src/layouts/CustomerView.vue'),
+    component: () => import('src/layouts/ClientView.vue'),
       children: [
         {path: 'customer' ,component: () => import('src/pages/CustomerPage.vue')},
         {path: 'company', component: ()=> import('src/pages/CompanyPage.vue')},

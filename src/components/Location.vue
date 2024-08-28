@@ -19,7 +19,9 @@
         transition-hide="scale"
         class="bg-grey-5"
         >
-        <MapLocalition @send-coords="onSendCoords" v-bind:coordsCurrent="coords"/>
+        <MapLocalition
+          @send-coords="onSendCoords"
+          :coordsCurrent="coords"/>
       </q-popup-proxy>
     </q-icon>
 
@@ -27,14 +29,13 @@
 </template>
 
 <script>
-import axios from 'axios';
+import api from 'src/httpclient';
 import {onMounted, ref} from 'vue';
 import MapLocalition from './Map.vue'
 
 export default {
   name: 'LocationComponent',
   setup (_, {emit}) {
-    const apiKey = 'f4f2114a92d941739d83d8dbdd6e53c1';
     const coords = ref('');
     const clientLocation = ref({
       city: '',
@@ -49,16 +50,18 @@ export default {
       geolocationReverse(coords.value.latitude, coords.value.longitude);
     }
 
-    const errorPosition = () =>{
+    const errorPosition = () => {
       console.log('Error in get geolocation position');
     }
 
+    // Try sending latitude and longitude to API to return the location
     const geolocationReverse = async(latArg, lonArg) => {
       try {
-
         if(latArg && lonArg) {
-          const resp = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latArg}+${lonArg}&key=${apiKey}`);
-
+          const resp = await api.post('geolocation', {
+            latitude: `${latArg}`,
+            longitude: `${lonArg}`
+          });
 
           clientLocation.value = {
             city: resp.data.results[0].components.city,
@@ -73,6 +76,7 @@ export default {
       }
     }
 
+    // Send location to AddOrder
     const sendLocation = () => {
         setTimeout(() => {
           emit('send-location', clientLocation.value);
@@ -102,10 +106,9 @@ export default {
           this.geolocationReverse(data.lat, data.lon);
           this.sendLocation();
         }
-
       }
   },
-  mounted() {
+  created() {
     this.onSendCoords();
   },
   components: {

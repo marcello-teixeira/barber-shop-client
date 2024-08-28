@@ -16,7 +16,7 @@ const components = {
   cpf: {
     label: "CPF",
     type: "text",
-    rule: (val) => val.length >= 11 || "Enter your CPF",
+    rule: '',
     mask: "###.###.###-##",
     model: "",
     visible: true
@@ -24,10 +24,10 @@ const components = {
   cnpj: {
     label: "CNPJ",
     type: "text",
-    rule: (val) => val.length >= 14 || "Enter your CNPJ",
+    rule: '',
     mask: "##.###.###/####-##",
     model: "",
-    visible: true
+    visible: false
   },
   password: {
     label: "Password",
@@ -39,11 +39,10 @@ const components = {
     hint: 'Password must be longer than 8 characters',
     visible: true
   },
-  passwordtwofactor: {
+  passwordTwofactor: {
     label: "Confirm password",
     type: "password",
-    rule: (val) =>
-      val === this.Inputs.Password.model || "Password is not the same",
+    rule: '',
     model: "",
     visible: true
   },
@@ -61,8 +60,11 @@ const components = {
     rule: (val) => val.length > 0 || "Enter your location",
     model: "",
     hint: 'Mask: road number, postcode city, country',
-    visible: true
+    visible: false
   },
+  profilePicture: {
+    model: null
+  }
 }
 
 export default components;

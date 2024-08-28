@@ -100,6 +100,7 @@ export default {
       time.value = null;
     }
 
+    // Check if there are any orders at the same time
     const filteredHours = computed(() => {
       return companyHours.filter(hour => {
 
@@ -123,6 +124,7 @@ export default {
       });
     });
 
+    // Get datetime and send to AddOrder
     const getFullDateTime = () => {
       emit('get-fulldatetime', date.value, time.value);
     }

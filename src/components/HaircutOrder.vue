@@ -47,6 +47,7 @@ export default {
   setup (props,{emit}) {
     const selecthaircut = ref('');
 
+    // Select haircut and send to component AddOrder
     const getHaircuts = () => {
       emit('get-haircuts-company', selecthaircut.value);
     }

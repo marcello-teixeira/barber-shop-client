@@ -36,6 +36,7 @@ export default {
       const showLogin = ref(true);
       const showLoading = ref(null);
 
+      // Fade out and slide components to load register page
       const onSlideFormLogin = () => {
         showLogin.value = false;
         showLoading.value = true;
@@ -99,9 +100,6 @@ export default {
   background-position: center right;
   box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.288) ;
 }
-
-
-/* animation */
 
 
 @keyframes slideBackRight {
