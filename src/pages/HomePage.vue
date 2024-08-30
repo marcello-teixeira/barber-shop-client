@@ -180,16 +180,7 @@ export default {
     const titlePageShow = ref(false)
     const show = ref(false);
 
-    // Load CSS (mediaHome) in folder styles
-    const loadCss = () => {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'src/styles/mediaHome.css'
-      document.head.appendChild(link);
-      console.log('tudo ok no home');
-    }
-
-    const loopCarousel = async () => {
+      const loopCarousel = async () => {
       slide.value++;
       if(slide.value > 4) {
           slide.value = 1;
@@ -197,7 +188,6 @@ export default {
     }
 
     onMounted(() => {
-      loadCss();
       titlePageShow.value = true
       show.value = true;
       setInterval(loopCarousel, 5000);
