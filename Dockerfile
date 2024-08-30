@@ -1,17 +1,5 @@
-FROM node:18.18.0-alpine
+FROM nginx:alpine
 
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-RUN npm install serve
-
-COPY . .
-
-RUN npm run build
+COPY . /usr/share/nginx/html
 
 EXPOSE 80
-
-CMD ["npx", "serve", "--single", "-p", "80", "dist/spa"]
-
