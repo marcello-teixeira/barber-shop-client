@@ -3,20 +3,20 @@ const routes = [
     path: '/view',
     component: () => import('src/layouts/ClientView.vue'),
       children: [
-        {path: 'customer' ,component: () => import('src/pages/CustomerPage.vue')},
-        {path: 'company', component: ()=> import('src/pages/CompanyPage.vue')},
-        {path: 'support', component: () => import('src/pages/SupportPage.vue')},
-        {path: 'settings', component: () => import('src/pages/SettingsPage.vue')}
+        {path: 'customer' ,component: () => import('src/pages/CustomerPage.vue'), meta: {title: '| Customer'}},
+        {path: 'company', component: ()=> import('src/pages/CompanyPage.vue'), meta: {title: '| Company'}},
+        {path: 'support', component: () => import('src/pages/SupportPage.vue'), meta: {title: '| Support'}},
+        {path: 'settings', component: () => import('src/pages/SettingsPage.vue'), meta: {title: '| Settings'}}
       ]
   },
   {
     path: '/',
     component: () => import('src/layouts/InitialLayout.vue'),
     children: [
-      {path: '', component: () => import('src/pages/HomePage.vue')},
-      { path: 'login', component: () => import('src/pages/LoginPage.vue') },
-      { path: 'register', component: () => import('src/pages/RegisterPage.vue') },
-      {path: 'support', component: () => import('src/pages/SupportPage.vue')}
+      {path: '', component: () => import('src/pages/HomePage.vue'), meta: {title: '| Home'}},
+      { path: 'login', component: () => import('src/pages/LoginPage.vue'), meta: {title: '| Login'} },
+      { path: 'register', component: () => import('src/pages/RegisterPage.vue'), meta: {title: '| Register'} },
+      {path: 'support', component: () => import('src/pages/SupportPage.vue'), meta: {title: '| Support'}}
     ]
   },
   {

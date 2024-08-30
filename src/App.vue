@@ -3,11 +3,14 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'App'
-});
+export default {
+  name: 'App',
+  watch: {
+    '$route.meta.title'(newTitle) {
+      document.title = `BarberShop ${newTitle || ''}`
+    }
+  }
+};
 </script>
 
 <style>
