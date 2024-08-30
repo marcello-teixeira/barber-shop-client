@@ -1,4 +1,4 @@
-@media (orientation: portrait) and (max-width: 640px){
+@media (max-width: 640px){
   .title-page h1 {
     font-size: 3rem;
     width: 250px;
@@ -54,13 +54,13 @@
 
 }
 
-@media (orientation: portrait) and (max-width: 400px) {
+@media (max-width: 400px) {
   .text-banner-home p {
     width: 350px;
   }
 }
 
-@media (orientation: landscape) and (max-height:	640px) {
+@media (max-height:	640px) {
   .title-page {
     top: 0%;
   }
