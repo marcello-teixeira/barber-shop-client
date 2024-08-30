@@ -186,6 +186,7 @@ export default {
       link.rel = 'stylesheet';
       link.href = 'src/styles/mediaHome.css'
       document.head.appendChild(link);
+      console.log('tudo ok no home');
     }
 
     const loopCarousel = async () => {
@@ -214,7 +215,6 @@ export default {
 </script>
 
 <style scoped>
-
 .text-banner-home {
   background: #2f3030;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -273,8 +273,6 @@ export default {
   overflow: hidden;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-
-
 
 .plan-container {
   position: relative;
@@ -425,6 +423,105 @@ export default {
 @keyframes fadeIn {
   to {
     color: #fff;
+  }
+}
+
+@media (max-width: 640px){
+  .title-page h1 {
+    font-size: 3rem;
+    width: 250px;
+  }
+  .title-page h1::before {
+    content: '';
+    position: absolute;
+    width: 230px;
+    height: 6px;
+    background-color: transparent;
+    top: 90%;
+    left: 0;
+    animation: fadeDecoration .5s 1.3s ease forwards;
+  }
+
+  .price-caption {
+    left: 67%;
+  }
+
+  #first-phase,  #second-phase{
+    font-size: 1.5rem;
+    width: 300px;
+  }
+
+  .title-plan{
+    font-size: 2rem;
+  }
+
+  .banner-img {
+    display: none;
+  }
+
+  .text-banner-home {
+    width: auto;
+  }
+
+  .text-banner-home p {
+    width: 400px;
+  }
+
+  .list-plan {
+    display: block;
+  }
+
+  .plan-container {
+    display: flex;
+    place-content: center;
+  }
+
+  .title-page {
+    top: 5%;
+  }
+
+}
+
+@media (max-width: 400px) {
+  .text-banner-home p {
+    width: 350px;
+  }
+}
+
+@media (max-height:	640px) {
+  .title-page {
+    top: 0%;
+  }
+}
+
+@media (min-width:	640px) {
+  .title-page h1 {
+    font-size: 4rem;
+    width: 250px;
+  }
+
+  .title-page h1::before {
+    content: '';
+    position: absolute;
+    width: 330px;
+    height: 6px;
+    background-color: transparent;
+    top: 90%;
+    left: 0;
+    animation: fadeDecoration .5s 1.3s ease forwards;
+  }
+
+  #first-phase,  #second-phase{
+    font-size: 1.5rem;
+    width: 450px;
+  }
+
+  .title-page {
+    top: 5%;
+  }
+
+  .price-caption {
+    left: 63%;
   }
 }
 
