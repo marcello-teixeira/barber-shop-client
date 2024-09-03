@@ -1,41 +1,17 @@
-# Quasar App (barbershop-client)
+<h1 align="center">
+  <b>BarbShop - WebPage</b>
+  <img src="https://i.pinimg.com/originals/ce/2e/b5/ce2eb5c24ec4ea4a59ec9a82905765d8.png" width="50"> 
+  <br>
+</h1>
 
-A BarberShop client UI
+BarbShop - WebPage is responsible for the UX/UI and displays data from database SQL Server. This data is processed by the <a href="https://github.com/marcello-teixeira/barber-shop-api">API</a> and its endpoints.
 
-## Install the dependencies
-```bash
-yarn
-# or
-npm install
-```
+# Description 📝
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
-```
+The web page was developed using Javascript and frameworks Vue and Quasar.
 
+# Languages and Tools 🛠️
 
-### Lint the files
-```bash
-yarn lint
-# or
-npm run lint
-```
-
-
-### Format the files
-```bash
-yarn format
-# or
-npm run format
-```
-
-
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+- <img width="25" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  /> Javascript
+- <img width="25" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" height="40" alt="vuejs logo"  /> Vue
+- <img width="25" src="https://www.svgrepo.com/show/374024/quasar.svg" height="40" alt="vuejs logo"  /> Quasar
