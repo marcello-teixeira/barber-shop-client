@@ -9,7 +9,7 @@
           <img class="image-profile" :src="photoURL" alt="Profile Photo">
         </div>
         <div class="col-3 q-ml-xl">
-          <div v-for="(info, key) in infoClient" :key="key" v-show="key !== 'id' && key !== 'photo' && key != 'avaliableAgenda'">
+          <div v-for="(info, key) in infoClient" :key="key" v-show="key !== 'id' && key !== 'photo' && key != 'avaliableAgenda' && key != 'password'">
              <p class="title-info">
               {{ `${key}`.toUpperCase() }}
              </p>
