@@ -15,3 +15,12 @@ The web page was developed using Javascript and frameworks Vue and Quasar.
 - <img width="25" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  /> Javascript
 - <img width="25" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" height="40" alt="vuejs logo"  /> Vue
 - <img width="25" src="https://www.svgrepo.com/show/374024/quasar.svg" height="40" alt="vuejs logo"  /> Quasar
+- <img width="25" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" alt="azure log" /> Azure
+
+# Deployment ☁️
+
+You can access the web site <a href="https://webpage-barbershop.azurewebsites.net/#/">here</a>.
+
+The deploy was made in Azure using a docker container.
+
+Visit the <a href="https://github.com/marcello-teixeira/barber-shop-api">API repository</a> where I used C# to developed it.
