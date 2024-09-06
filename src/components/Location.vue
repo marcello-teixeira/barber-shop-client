@@ -44,6 +44,7 @@ export default {
       road: ''
     })
 
+    // Get current coords client and call GeolocationReverse function
     const getPosition = (position) => {
       coords.value = position.coords;
 
@@ -54,7 +55,7 @@ export default {
       console.log('Error in get geolocation position');
     }
 
-    // Try sending latitude and longitude to API to return the location
+    // Send latitude and longitude to API, then it return the location
     const geolocationReverse = async(latArg, lonArg) => {
       try {
         if(latArg && lonArg) {
@@ -76,7 +77,15 @@ export default {
       }
     }
 
-    // Send location to AddOrder
+    // Get coords by map component and call SendLocation function
+    const onSendCoords = (data) => {
+        if(data !== undefined) {
+          geolocationReverse(data.lat, data.lon);
+          sendLocation();
+        }
+      }
+
+    // When FIND ME is acted send current location to AddOrder
     const sendLocation = () => {
         setTimeout(() => {
           emit('send-location', clientLocation.value);
@@ -90,29 +99,21 @@ export default {
           }
 
         navigator.geolocation.getCurrentPosition(getPosition, errorPosition);
+
+        onSendCoords();
       });
 
       return {
         clientLocation,
         coords,
         sendLocation,
-        geolocationReverse
+        geolocationReverse,
+        onSendCoords
 
       }
     },
-    methods: {
-      onSendCoords(data) {
-        if(data !== undefined) {
-          this.geolocationReverse(data.lat, data.lon);
-          this.sendLocation();
-        }
-      }
-  },
-  created() {
-    this.onSendCoords();
-  },
-  components: {
-    MapLocalition
-  }
+    components: {
+      MapLocalition
+    }
 }
 </script>

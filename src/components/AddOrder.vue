@@ -1,6 +1,6 @@
 <template>
     <div class="flex column new-order">
-      <h3 class="text-center" style="margin-top: 0px; border-bottom: 5px solid #799693;">
+      <h3 class="text-newhaircut text-center">
       Get a new haircut?
       </h3>
       <q-form
@@ -163,6 +163,12 @@ export default {
 
 ::-webkit-scrollbar {
   width: 0px;
+}
+
+.text-newhaircut {
+  margin-top: 0px;
+  border-bottom: 5px solid #799693;
+  font-size: 2rem;
 }
 
 .select-haircut {

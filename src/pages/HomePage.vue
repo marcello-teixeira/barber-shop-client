@@ -14,7 +14,6 @@
         <q-carousel
           animated
           v-model="slide"
-          arrows
           navigation
           infinite
           class="carousel"
@@ -96,9 +95,9 @@
                 We work to provide best user experience in a barbershop  businness. You'll have a complete system for managing and centralizing customers.
               </p>
               <p>
-                You a customer? Can now get find new barbers close you. Don't waste time, create an account <a href="#/login">now</a>.
+                You a customer? Can now get find new barbers close you. Don't waste time, create an account <a href="#/register">now</a>.
               </p>
-              <a href="#/login"><iconBarb :Path="'/view/login'" /></a>
+              <a href="#/register"><iconBarb :Path="'/view/register'" /></a>
           </div>
         </div>
       </div>
@@ -385,10 +384,6 @@ export default {
   animation: showText 1.5s 0.9s cubic-bezier(0.85, 0, 0.15, 1) forwards;
 }
 
-.title-page:hover #first-phase, .title-page:hover #second-phase {
-  text-decoration-color: rgb(206, 102, 17);
-}
-
 .banner-text {
   box-shadow: 0px -5px 5px #00000068;
 }
@@ -433,12 +428,12 @@ export default {
   }
 
   .price-caption {
-    left: 67%;
+    left: 66%;
   }
 
   #first-phase,  #second-phase{
     font-size: 1.5rem;
-    width: 300px;
+    width: 330px;
   }
 
   .title-plan{
@@ -470,13 +465,24 @@ export default {
     top: 5%;
   }
 
+  .title-page:hover #first-phase, .title-page:hover #second-phase {
+    text-decoration-color: transparent;
+  }
+
 }
 
 @media (max-width: 400px) {
   .text-banner-home p {
-    width: 350px;
+    width: 300px;
+  }
+
+  #first-phase,  #second-phase{
+    font-size: 1.5rem;
+    width: 250px;
   }
 }
+
+
 
 @media (max-height:	640px) {
   .title-page {
@@ -511,7 +517,11 @@ export default {
   }
 
   .price-caption {
-    left: 63%;
+    left: 66%;
+  }
+
+  .title-page:hover #first-phase, .title-page:hover #second-phase {
+    text-decoration-color: rgb(206, 102, 17);
   }
 }
 

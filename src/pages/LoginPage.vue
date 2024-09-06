@@ -7,20 +7,15 @@
         </transition>
         <transition name="slide-right">
           <div class="col-md-5 slide-back-left column justify-center " v-if="showLogin">
-              <h3 class="column items-center ">
+              <h3 class="column items-center welcome-title">
                 Welcome again
               </h3>
               <Login @slide-form="onSlideFormLogin"/>
-              <h6 class="column items-center q-pt-xl">
-                &copy; BarbShop, 2024
-              </h6>
           </div>
         </transition>
       </q-page>
     </transition>
-
     <LoadindForm v-bind:triggerLoading="showLoading"/>
-
   </q-page-container>
 </template>
 
@@ -94,7 +89,7 @@ export default {
 }
 
 .bg-login {
-  height: 90dvh;
+  height: 85dvh;
   background-image: url('/img/barb-bg-login.jpg');
   background-size: cover;
   background-position: center right;
@@ -117,6 +112,18 @@ export default {
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .bg-login {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .welcome-title {
+    font-size: 2.3rem;
   }
 }
 

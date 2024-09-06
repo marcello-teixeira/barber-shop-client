@@ -1,8 +1,8 @@
 <template>
   <div class="row justify-center">
-    <div class="col-md-6 q-py-lg" style="position: relative;">
+    <div class="col-md-6">
       <q-form
-      class="q-gutter-md bg-light-green-3 q-pa-md rounded-borders shadow-3"
+      class="q-gutter-md  bg-light-green-3 q-pa-md rounded-borders shadow-3"
       autocomplete="off"
       >
         <q-input
@@ -52,6 +52,25 @@
       <div class="info-login" v-show="!successfulLogin">
         <span>Email or password is incorrect</span>
       </div>
+      <p class="column items-center example-title q-mt-sm">
+        Click below to see the accounts example: 
+      </p>
+      <div class="row q-gutter-xs justify-center">
+        <q-btn
+          label="Example customer"
+          color="blue-6"
+          class="col-5"
+          @click="CustomerExampleLogin($event,'exampleCustomer@gmail.com', '123123123')"
+        >
+        </q-btn>
+        <q-btn
+          label="Example Company"
+          color="blue-6"
+          class="col-5"
+          @click="CompanyExampleLogin($event,'exampleCompany@gmail.com', '123123123')"
+        >
+        </q-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -97,12 +116,28 @@ export default defineComponent({
       })
     }
 
+    // customer example login to recruiters
+    const CustomerExampleLogin = (event, mail, password) => {
+      MailClient.value = mail;
+      PasswordClient.value = password;
+      submitFormLogin(event);
+    }
+
+    // company example login to recruiters
+    const CompanyExampleLogin = (event, mail, password) => {
+      MailClient.value = mail;
+      PasswordClient.value = password;
+      submitFormLogin(event);
+    }
+
     return {
       PasswordClient,
       MailClient,
       successfulLogin,
       submitFormLogin,
-      slideForm
+      slideForm,
+      CompanyExampleLogin,
+      CustomerExampleLogin
     }
   },
   created() {
@@ -114,7 +149,7 @@ export default defineComponent({
 
 <style>
 .info-login {
-  position: absolute;
+  position: relative;
   padding: 15px;
   text-align: center;
   width: 100%;
@@ -124,6 +159,10 @@ export default defineComponent({
   font-size: 22px;
   color: red;
   font-weight: bold;
+}
+
+.example-title {
+  font-size: 1rem;
 }
 
 

@@ -8,7 +8,7 @@
         >
           <img class="image-profile" :src="photoURL" alt="Profile Photo">
         </div>
-        <div class="col-3 q-ml-xl">
+        <div class="col-3 container-info">
           <div v-for="(info, key) in infoClient" :key="key" v-show="key !== 'id' && key !== 'photo' && key != 'avaliableAgenda' && key != 'password'">
              <p class="title-info">
               {{ `${key}`.toUpperCase() }}
@@ -175,8 +175,12 @@ export default {
 
 .title-info {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1.5rem;
   margin-bottom: 0;
+}
+
+.info {
+  font-size: 1rem;
 }
 
 .align{
@@ -198,13 +202,8 @@ export default {
 
   .title-info {
     font-weight: bold;
-    font-size: 14px;
     margin-bottom: 0;
     width: 270px;
-  }
-
-  .info {
-    font-size: 12px;
   }
 
   .align {
@@ -214,6 +213,11 @@ export default {
 
   .change-photo {
     width: 70%;
+  }
+
+  .container-info {
+    align-self: start;
+    padding-left: 50px;
   }
 
 }

@@ -1,7 +1,7 @@
 <template>
   <q-page-container>
     <q-page padding class="row q-gutter-lg justify-center">
-      <div class="col-3 column justify-center order">
+      <div class="col-md-3 column justify-center order">
         <AddOrder
         @refresh-table-orders="refreshTableOrders"
         />

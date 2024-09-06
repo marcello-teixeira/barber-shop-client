@@ -14,7 +14,7 @@
           <div class="col q-pa-sm customer-name" >
             {{ col.customerName }}
           </div>
-          <div class="col-3 column items-center border-left date-bg haircut-month-year">
+          <div class="col-3 column items-center justify-center border-left date-bg haircut-month-year">
             {{ getMonthYear(col.haircutDate)}}
           </div>
         </q-card-section>
@@ -190,6 +190,7 @@ export default {
   border-radius: 5px;
   padding-right: 15px;
 }
+
 
 
 </style>

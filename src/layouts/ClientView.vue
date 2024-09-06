@@ -24,13 +24,13 @@
           </q-avatar>
           <div class="popup-profile column justify-center" v-show="showPopup">
             <q-btn
-              class="q-pa-md rounded-border"
+              class="q-pa-md settings-border .popup-items"
               icon="settings"
               flat
               @click="settings('/view/settings')"
             />
             <q-btn
-              class="q-pa-md rounded-border"
+              class="q-pa-md logout-border .popup-items"
               icon="logout"
               flat
               @click="Logoff('/')"
@@ -126,9 +126,8 @@
 
 <script>
 import { onMounted, ref } from 'vue';
-import IconBarb from 'src/components/IconBarb.vue';
 import {getProfilePicture} from '../httpclient.js';
-import api from '../httpclient.js';
+import IconBarb from 'src/components/IconBarb.vue';
 
 export default {
   name: 'LayoutName',
@@ -212,15 +211,26 @@ export default {
   position: absolute;
   top: 3.7rem;
   left: -.5rem;
-  width: 100%;
   background-color: #9E9E9E;
+  width: 100%;
   z-index: 1;
   border-radius: 10px;
 }
 
-.rounded-border {
-  border-radius: 10px;
+.popup-items {
+  background-color: #9E9E9E;
 }
 
+.popup-items:hover {
+  background-color: #c9c9c9;
+}
+
+.settings-border {
+  border-radius: 10px 10px 0 0;
+}
+
+.logout-border {
+  border-radius: 0 0 10px 10px;
+}
 
 </style>

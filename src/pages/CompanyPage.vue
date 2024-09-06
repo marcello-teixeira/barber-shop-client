@@ -1,12 +1,12 @@
 <template>
   <q-page-container>
     <q-page padding class="flex align q-gutter-md" >
-        <div class="col-8 q-pa-md order">
+        <div class="col-8 q-pa-md">
           <OrdersViewCompany
             :Orders="rows"
           />
         </div>
-        <div class="col q-gutter-md order ">
+        <div class="col q-gutter-md">
           <div class="column items-center">
             <q-btn
               label="New haircut"
@@ -19,6 +19,7 @@
           <h6 style="margin: 10px 0px 0px 20px;">
             OPEN ORDERS
           </h6>
+
           <OpenOrders
             @reset-orders="getOrders()"
             :Orders="rows"
@@ -84,4 +85,14 @@ export default {
   }
 }
 </script>
+
+<style>
+
+@media  screen and (max-width: 1350px) {
+  .align {
+    display: flex;
+    flex-direction: column;
+  }
+}
+</style>
 
