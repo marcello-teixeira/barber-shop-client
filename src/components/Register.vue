@@ -163,7 +163,18 @@ export default {
       return response.data;
     }
 
-    const SubmitRegisterForm = () => {
+    const SubmitRegisterForm = async () => {
+
+      if(!termsAgrees.value) {
+        Notify.create({
+          message: 'For register account accept the terms and conditions',
+          color: 'negative',
+          position: 'bottom'
+          })
+
+          return;
+      }
+
       const formData = new FormData();
       let route;
 
@@ -186,15 +197,23 @@ export default {
         route = 'company';
       }
 
-      ClientRegister(formData, route);
+      await ClientRegister(formData, route)
+      .then(() => {
+        Notify.create({
+          message: 'Successfully registered!',
+          color: 'positive',
+          position: 'top'
+        })
 
-      Notify.create({
-        message: 'Successfully registered!',
-        color: 'positive',
-        position: 'top'
+        window.location.hash = 'login';
       })
-
-      window.location.hash = 'login';
+      .catch(() => {
+        Notify.create({
+          message: 'Failed on register!',
+          color: 'negative',
+          position: 'top'
+        })
+      });
     };
 
     const IsCompany = () => {

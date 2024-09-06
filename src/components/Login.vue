@@ -5,6 +5,12 @@
       class="q-gutter-md  bg-light-green-3 q-pa-md rounded-borders shadow-3"
       autocomplete="off"
       >
+        <q-toggle
+          class="toggle-account"
+          label="Account Company"
+          v-model="accountCompany"
+        >
+        </q-toggle>
         <q-input
           color="secondary"
           type="text"
@@ -53,21 +59,21 @@
         <span>Email or password is incorrect</span>
       </div>
       <p class="column items-center example-title q-mt-sm">
-        Click below to see the accounts example: 
+        Click below to see the accounts example:
       </p>
       <div class="row q-gutter-xs justify-center">
         <q-btn
           label="Example customer"
           color="blue-6"
           class="col-5"
-          @click="CustomerExampleLogin($event,'exampleCustomer@gmail.com', '123123123')"
+          @click="exampleLogin($event)"
         >
         </q-btn>
         <q-btn
           label="Example Company"
           color="blue-6"
           class="col-5"
-          @click="CompanyExampleLogin($event,'exampleCompany@gmail.com', '123123123')"
+          @click="exampleLogin($event)"
         >
         </q-btn>
       </div>
@@ -77,7 +83,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue';
-import {ClientLogin} from '../httpclient.js'
+import { ClientLogin } from '../httpclient.js'
 
 export default defineComponent({
   name: 'ClientLogin',
@@ -85,6 +91,7 @@ export default defineComponent({
     const MailClient = ref('');
     const PasswordClient = ref('');
     const successfulLogin = ref(true);
+    const accountCompany = ref(false);
 
     // Send a emit to the Login Page
     const slideForm = () => {
@@ -116,17 +123,18 @@ export default defineComponent({
       })
     }
 
-    // customer example login to recruiters
-    const CustomerExampleLogin = (event, mail, password) => {
-      MailClient.value = mail;
-      PasswordClient.value = password;
-      submitFormLogin(event);
-    }
+    //  example login to recruiters
+    const exampleLogin = (event) => {
+      if(accountCompany.value) {
+        // company mail
+        MailClient.value = 'exampleCompany@gmail.com';
+      } else {
+        // customer mail
+        MailClient.value = 'exampleCustomer@gmail.com';
+      }
 
-    // company example login to recruiters
-    const CompanyExampleLogin = (event, mail, password) => {
-      MailClient.value = mail;
-      PasswordClient.value = password;
+      PasswordClient.value = '123123123';
+
       submitFormLogin(event);
     }
 
@@ -134,10 +142,10 @@ export default defineComponent({
       PasswordClient,
       MailClient,
       successfulLogin,
+      accountCompany,
       submitFormLogin,
       slideForm,
-      CompanyExampleLogin,
-      CustomerExampleLogin
+      exampleLogin
     }
   },
   created() {
@@ -165,5 +173,9 @@ export default defineComponent({
   font-size: 1rem;
 }
 
+.toggle-account {
+  font-size: 1rem;
+  font-weight: bold;
+}
 
 </style>

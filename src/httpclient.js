@@ -45,13 +45,14 @@ api.interceptors.request.use(
 //
 // Check login successful, if true set token and role in LocalStorage
 //
-export async function ClientLogin(mail, password) {
+export async function ClientLogin(mail, password, role) {
   try {
     const response = await api.post(
       'authentication/login',
       {
         login: mail,
         password: password,
+        role: role
       }
     );
 
@@ -69,20 +70,24 @@ export async function ClientLogin(mail, password) {
 // Send register data to API
 //
 export function ClientRegister(FormData, route) {
-  try {
-    api.post(
-      `${route}`,
-      FormData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'accept': '*/*'
-        }
+  const response = api.post(
+    `${route}`,
+    FormData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'accept': '*/*'
       }
-    )
-  } catch (error) {
-    console.error('Register client function error',error);
-  }
+    }
+  ).then((resp) => response = resp.data);
+
+  return new Promise((resolve, reject) => {
+    if(response.data) {
+      resolve('Register successful');
+    } else {
+      reject('Error in data registering');
+    }
+  });
 }
 
 export default api;
