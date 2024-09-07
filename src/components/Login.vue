@@ -63,7 +63,7 @@
       <p class="column items-center example-title q-mt-sm">
         Switch between example accounts by clicking the toggle above:
       </p>
-      <div class="row q-gutter-xs justify-center">
+      <div class="row q-gutter-xs justify-center q-pb-md">
         <q-btn
           :label=accountRole
           color="blue-6"
@@ -191,6 +191,12 @@ export default defineComponent({
 .toggle-account {
   font-size: 1rem;
   font-weight: bold;
+}
+
+@media (max-width: 470px) {
+  .example-title {
+    font-size: .5rem;
+  }
 }
 
 </style>

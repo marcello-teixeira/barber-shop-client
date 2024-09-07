@@ -179,6 +179,10 @@ export default {
   margin-bottom: 0;
 }
 
+.container-info {
+  padding-left: 50px;
+}
+
 .info {
   font-size: 1rem;
 }
@@ -217,7 +221,6 @@ export default {
 
   .container-info {
     align-self: start;
-    padding-left: 50px;
   }
 
 }

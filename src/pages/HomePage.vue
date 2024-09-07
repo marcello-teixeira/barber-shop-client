@@ -483,8 +483,7 @@ export default {
 }
 
 
-
-@media (max-height:	640px) {
+@media (max-height:	450px) {
   .title-page {
     top: 0%;
   }
@@ -512,16 +511,18 @@ export default {
     width: 450px;
   }
 
-  .title-page {
-    top: 5%;
-  }
-
   .price-caption {
     left: 66%;
   }
 
   .title-page:hover #first-phase, .title-page:hover #second-phase {
     text-decoration-color: rgb(206, 102, 17);
+  }
+}
+
+@media (min-width: 1000px) or (min-height: 1000px) {
+  .title-page {
+    top: 5%;
   }
 }
 
