@@ -8,7 +8,9 @@
         <q-toggle
           class="toggle-account"
           label="Account Company"
-          v-model="accountCompany"
+          hint="Toggle to see account company example"
+          v-model="isAccountCompany"
+          @click="CheckRole"
         >
         </q-toggle>
         <q-input
@@ -59,20 +61,13 @@
         <span>Email or password is incorrect</span>
       </div>
       <p class="column items-center example-title q-mt-sm">
-        Click below to see the accounts example:
+        Switch between example accounts by clicking the toggle above:
       </p>
       <div class="row q-gutter-xs justify-center">
         <q-btn
-          label="Example customer"
+          :label=accountRole
           color="blue-6"
-          class="col-5"
-          @click="exampleLogin($event)"
-        >
-        </q-btn>
-        <q-btn
-          label="Example Company"
-          color="blue-6"
-          class="col-5"
+          class="col"
           @click="exampleLogin($event)"
         >
         </q-btn>
@@ -82,7 +77,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { ClientLogin } from '../httpclient.js'
 
 export default defineComponent({
@@ -90,21 +85,39 @@ export default defineComponent({
   setup (_, {emit}) {
     const MailClient = ref('');
     const PasswordClient = ref('');
+    const RoleClient = ref('customer');
     const successfulLogin = ref(true);
-    const accountCompany = ref(false);
+    const isAccountCompany = ref(false);
+    const accountRole = computed(() => {
+      return CheckRole();
+    });
+
 
     // Send a emit to the Login Page
     const slideForm = () => {
       emit('slide-form');
     }
 
+    // Check which type role
+    const CheckRole = () => {
+      let exampleRole;
+      if(isAccountCompany.value){
+        exampleRole = 'Example Company';
+        RoleClient.value = 'company';
+      } else {
+        exampleRole = 'Example Customer'
+        RoleClient.value = 'customer';
+      }
+      return exampleRole;
+    }
+
     const submitFormLogin = async(e) => {
       e.preventDefault();
       try {
-        successfulLogin.value = await ClientLogin(MailClient.value, PasswordClient.value);
+        successfulLogin.value = await ClientLogin(MailClient.value, PasswordClient.value, RoleClient.value);
         await enterPage();
       } catch (error) {
-        console.error('A error has been detected in login', error);
+        console.error('A error has been detected in login', error.message);
       }
     }
 
@@ -125,7 +138,7 @@ export default defineComponent({
 
     //  example login to recruiters
     const exampleLogin = (event) => {
-      if(accountCompany.value) {
+      if(isAccountCompany.value) {
         // company mail
         MailClient.value = 'exampleCompany@gmail.com';
       } else {
@@ -142,10 +155,12 @@ export default defineComponent({
       PasswordClient,
       MailClient,
       successfulLogin,
-      accountCompany,
+      isAccountCompany,
+      accountRole,
       submitFormLogin,
       slideForm,
-      exampleLogin
+      exampleLogin,
+      CheckRole
     }
   },
   created() {

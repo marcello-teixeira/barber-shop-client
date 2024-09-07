@@ -1,12 +1,9 @@
 import axios from "axios";
 
-// const api = axios.create({
-//   baseURL: 'https://api-barbershop.azurewebsites.net/v1'
-// });
-
 const api = axios.create({
-    baseURL: 'https://localhost:7290/v1'
-  });
+   baseURL: 'https://api-barbershop.azurewebsites.net/v1'
+});
+
 
 //
 // Get the image of profile picture and return a image's URL
