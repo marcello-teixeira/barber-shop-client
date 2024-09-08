@@ -41,4 +41,6 @@ The frontend needs the API to work correctly. Visit the <a href="https://github.
 2. Navigate to the root directory cloned.
 3. Run command: npm install
 4. Run command: quasar dev
-5. The web page is avaliable in http://localhost:9000.
+5. The web page mode developing will be avaliable in http://localhost:9000.
+
+- To see web page working correctly access ➡️ https://webpage-barbershop.azurewebsites.net/#/
