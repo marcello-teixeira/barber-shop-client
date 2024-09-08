@@ -37,13 +37,8 @@ The frontend needs the API to work correctly. Visit the <a href="https://github.
 
 ## Installation ⚙️
 
-No docker:
-
 1. Clone the repository.
 2. Navigate to the root directory cloned.
 3. Run command: npm install
 4. Run command: quasar dev
 5. The web page is avaliable in http://localhost:9000.
-
-Do with docker:
-
