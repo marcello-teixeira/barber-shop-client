@@ -1,6 +1,6 @@
 <h1 align="center">
   <b>BarbShop - WebPage</b>
-  <img src="https://i.pinimg.com/originals/ce/2e/b5/ce2eb5c24ec4ea4a59ec9a82905765d8.png" width="50"> 
+  <img src="https://i.pinimg.com/originals/ce/2e/b5/ce2eb5c24ec4ea4a59ec9a82905765d8.png" width="50">
   <br>
 </h1>
 
@@ -17,9 +17,9 @@ You can access the web site ➡️<a href="https://webpage-barbershop.azurewebsi
 
 ## Description 📝
 
-The web page was developed using Javascript with the frameworks Vue and Quasar. 
+The web page was developed using Javascript with the frameworks Vue and Quasar.
 <br><br>
-It uses a login system to access either customer layout or company layout. 
+It uses a login system to access either customer layout or company layout.
 <br><br>
 As a company you can manage yours orders and haircuts, while the customers can do orders with any company registered.
 
@@ -28,6 +28,7 @@ As a company you can manage yours orders and haircuts, while the customers can d
 - <img width="25" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  /> Javascript
 - <img width="25" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" height="40" alt="vuejs logo"  /> Vue
 - <img width="25" src="https://www.svgrepo.com/show/374024/quasar.svg" height="40" alt="vuejs logo"  /> Quasar
+- <img width="25" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png/quasar.svg" height="40" alt="azure logo"  /> Azure
 
 ## Deployment ☁️
 
